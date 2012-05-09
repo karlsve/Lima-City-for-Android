@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="moderator">Moderatoren:</string>
+    <string name="Logout">Logout</string>
+    <string name="info">Info</string>
+</resources>

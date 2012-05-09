@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainPageLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9dc02a"
+    android:clipChildren="false"
+    android:orientation="vertical" >
+
+	<LinearLayout android:layout_height="wrap_content" android:background="@drawable/logo" android:layout_width="match_parent"></LinearLayout>
+
+	<ScrollView
+	    android:id="@+id/scrollViewMainContent"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" >
+
+		<LinearLayout
+		    android:id="@+id/linearLayoutMainPageContent"
+		    android:layout_width="match_parent"
+		    android:layout_height="306dp"
+		    android:baselineAligned="false"
+		    android:orientation="vertical" >
+
+		    <LinearLayout
+		        android:id="@+id/linearLayoutMainPageRow1"
+		        android:layout_width="match_parent"
+		        android:layout_height="fill_parent"
+		        android:baselineAligned="false"
+		        android:weightSum="1" android:layout_weight=".25">
+
+		        <LinearLayout
+		            android:id="@+id/linearLayoutMainPageProfileClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_margin="5dp"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:baselineAligned="false"
+		            android:orientation="vertical"
+		            android:padding="10dp" >
+
+		            <ImageView
+		                android:id="@+id/imageViewMainPageProfileImage"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:baselineAligned="false"
+		                android:scaleType="center"
+		                android:src="@drawable/photo" />
+
+		            <TextView
+		                android:id="@+id/textViewMainPageProfileText"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/profileTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold" />
+		        </LinearLayout>
+
+		        <LinearLayout
+		            android:id="@+id/LinearLayoutMainPageServerStatusClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_margin="5dp"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:orientation="vertical"
+		            android:padding="10dp" >
+
+		            <ImageView
+		                android:id="@+id/ImageViewMainPageNewsImage"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:scaleType="center"
+		                android:src="@drawable/feed" />
+
+		            <TextView
+		                android:id="@+id/TextViewMainPageServerStatusText"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/serverstatusTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold" />
+		        </LinearLayout>
+		    </LinearLayout>
+
+		    <LinearLayout
+		        android:id="@+id/linearLayoutMainPageRow2"
+		        android:layout_width="match_parent"
+		        android:layout_height="fill_parent" >
+
+		        <LinearLayout
+		            android:id="@+id/LinearLayoutMainPageFriendsClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_margin="5dp"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:orientation="vertical"
+		            android:padding="10dp" >
+
+		            <ImageView
+		                android:id="@+id/ImageViewMainPageFriendsImage"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:scaleType="center"
+		                android:src="@drawable/user" />
+
+		            <TextView
+		                android:id="@+id/TextViewMainPageFriendsText"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/friendsTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold" />
+		        </LinearLayout>
+
+		        <LinearLayout
+		            android:id="@+id/LinearLayoutMainPageGroupsClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_margin="5dp"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:orientation="vertical"
+		            android:padding="10dp" >
+
+		            <ImageView
+		                android:id="@+id/ImageViewMainPageGroupsImage"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:scaleType="center"
+		                android:src="@drawable/group" />
+
+		            <TextView
+		                android:id="@+id/TextViewMainPageGroupsText"
+		                android:layout_width="fill_parent"
+		                android:layout_height="match_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/groupsTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold"/>
+		        </LinearLayout>
+		    </LinearLayout>
+
+		    <LinearLayout
+		        android:id="@+id/linearLayoutMainPageRow3"
+		        android:layout_width="match_parent"
+		        android:layout_height="fill_parent" >
+
+		        <LinearLayout
+		            android:id="@+id/LinearLayoutMainPageVerwaltungClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_margin="5dp"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:orientation="vertical"
+		            android:padding="10dp" >
+
+		            <ImageView
+		                android:id="@+id/ImageViewMainPageVerwaltungImage"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:scaleType="center"
+		                android:src="@drawable/wrench" />
+
+		            <TextView
+		                android:id="@+id/TextViewMainPageVerwaltungText"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/settingsTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold" />
+		        </LinearLayout>
+
+		        <LinearLayout
+		            android:id="@+id/LinearLayoutMainPageChatClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_margin="5dp"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:orientation="vertical"
+		            android:padding="10dp" >
+
+		            <ImageView
+		                android:id="@+id/ImageView02"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:scaleType="center"
+		                android:src="@drawable/emoticon_smile" />
+
+		            <TextView
+		                android:id="@+id/TextView03"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/chatTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold" />
+		        </LinearLayout>
+		    </LinearLayout>
+
+		    <LinearLayout
+		        android:id="@+id/LinearLayoutMainPageRow4"
+		        android:layout_width="match_parent"
+		        android:layout_height="fill_parent" >
+
+		        <LinearLayout
+		            android:id="@+id/LinearLayoutMainPageForumClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_margin="5dp"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:orientation="vertical"
+		            android:padding="10dp" >
+
+		            <ImageView
+		                android:id="@+id/ImageViewMainPageForumImage"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:scaleType="center"
+		                android:src="@drawable/page" />
+
+		            <TextView
+		                android:id="@+id/TextViewMainPageForumText"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/forumTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold" />
+		        </LinearLayout>
+
+		        <LinearLayout
+		            android:id="@+id/LinearLayoutMainPageMessagesClick"
+		            android:layout_width="fill_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_gravity="center_vertical|center_horizontal"
+		            android:layout_weight=".5"
+		            android:background="@drawable/mainpageitem_border"
+		            android:orientation="vertical"
+		            android:padding="10dp" android:layout_margin="5dp">
+
+		            <ImageView
+		                android:id="@+id/ImageViewMainPageMessagesImage"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center_vertical|center_horizontal|center"
+		                android:layout_weight=".5"
+		                android:scaleType="center"
+		                android:src="@drawable/email" />
+
+		            <TextView
+		                android:id="@+id/TextViewMainPageMessageText"
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_gravity="center"
+		                android:layout_weight=".5"
+		                android:gravity="top|center"
+		                android:text="@string/messagesTitle"
+		                android:textColor="#ffffff"
+		                android:textSize="20dp"
+		                android:textStyle="bold" />
+		        </LinearLayout>
+		    </LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+
+</LinearLayout>

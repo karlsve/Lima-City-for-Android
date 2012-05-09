@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profileTitle">Profil</string>
+    <string name="serverstatusTitle">Server Status</string>
+    <string name="friendsTitle">Freunde</string>
+    <string name="groupsTitle">Gruppen</string>
+    <string name="settingsTitle">Verwaltung</string>
+    <string name="chatTitle">Chat</string>
+    <string name="forumTitle">Forum</string>
+    <string name="messagesTitle">Nachrichten</string>
+    
+</resources>

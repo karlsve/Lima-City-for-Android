@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_height="wrap_content" android:paddingLeft="5dp" android:paddingRight="10dp" android:id="@+id/chatlistitemlayout" android:orientation="vertical" android:layout_width="fill_parent" android:clickable="false" android:background="#ffffff">
+	<TextView android:layout_width="wrap_content" android:id="@+id/textViewUserListItemName" android:textAppearance="?android:attr/textAppearanceMedium" android:layout_height="wrap_content" android:text="TextView" android:textColor="#000000"></TextView>
+</LinearLayout>

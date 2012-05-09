@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:id="@+id/chatmenuchat">
+        <item android:id="@+id/chatmenurecitem" android:title="@string/chatLeave"></item>
+        <item android:id="@+id/chatmenuuserlist" android:title="@string/chatUserList"></item><item android:id="@+id/chatmenulogoutitem" android:title="@string/Logout"></item>
+        
+    </group>
+    
+
+</menu>

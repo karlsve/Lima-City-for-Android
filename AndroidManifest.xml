@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+		package="limaCity.App"
+		android:versionCode="1"
+		android:versionName="1.0"
+		android:installLocation="auto">
+    <uses-sdk android:minSdkVersion="8" />
+	<supports-screens android:anyDensity="true" />
+      
+	<uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:icon="@drawable/icon" android:label="@string/name" android:theme="@android:style/Theme.NoTitleBar">
+        <activity android:label="@string/name" android:name="limaCity.base.LoginActivity" android:icon="@drawable/icon" android:noHistory="true">
+            <intent-filter>
+	            <action android:name="android.intent.action.MAIN" />
+	            <category android:name="android.intent.category.LAUNCHER" />
+	        </intent-filter>
+        </activity>
+        <activity android:name="limaCity.base.MainActivity" android:label="@string/name"></activity>
+        <activity android:name="limaCity.profile.ProfileActivity" android:label="@string/name"></activity>
+        <activity android:label="@string/name" android:name="limaCity.friends.FriendsActivity"></activity>
+        <activity android:label="@string/name" android:name="limaCity.groups.GroupsActivity"></activity>
+        <activity android:label="@string/name" android:name="limaCity.forum.ForumActivity"></activity>
+        <activity android:label="@string/name" android:name="limaCity.forum.BoardActivity"></activity>
+        <service android:name="limaCity.chat.ChatService"></service>
+        <activity android:label="@string/name" android:name="limaCity.chat.ChatActivity"></activity>
+        <activity android:label="@string/name" android:name="limaCity.chat.UserActivity"></activity>
+		
+    </application>
+</manifest>

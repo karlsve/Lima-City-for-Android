@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name">Lima-City</string>
+    <string name="refresh">Neu Laden</string>
+    <string name="currentVersion">0.1</string>
+    
+</resources>
