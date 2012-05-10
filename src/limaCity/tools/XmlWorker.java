@@ -13,12 +13,12 @@ public class XmlWorker
 	public static String prepareNodeName(String input)
 	{
 		String output = "";
-		output = input.replace("Ae", "Ä");
-		output = output.replace("ae", "ä");
-		output = output.replace("Ue", "Ü");
-		output = output.replace("ue", "ü");
-		output = output.replace("Oe", "Ö");
-		output = output.replace("oe", "ö");
+		output = input.replace("Ae", "Ã„");
+		output = output.replace("ae", "Ã¤");
+		output = output.replace("Ue", "Ãœ");
+		output = output.replace("ue", "Ã¼");
+		output = output.replace("Oe", "Ã–");
+		output = output.replace("oe", "Ã¶");
 		output = output.replace("_", " ");
 		return output;
 	}
