@@ -7,6 +7,8 @@ import java.util.TimerTask;
 
 import limaCity.App.R;
 import limaCity.base.BasicData;
+import limaCity.connection.ConnectionChangeListener;
+import limaCity.connection.ConnectionChangeReceiver;
 import limaCity.tools.Crypto;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -45,6 +47,16 @@ public class ChatService extends Service {
     XMPPConnection conn = null;
     MultiUserChat muc = null;
     
+    ConnectionChangeListener connectChangeListener = new ConnectionChangeListener()
+    {
+
+	@Override
+	public void onConnectionTypeChanged() {
+	    reconnect();
+	}
+	
+    };
+    
     public void setChatListener(ChatListener listener)
     {
 	chatListener = listener;
@@ -59,9 +71,15 @@ public class ChatService extends Service {
     public void onCreate()
     {
 	initNotification();
+	initConnectionListener();
 	initChat();
     }
     
+    private void initConnectionListener() 
+    {
+	new ConnectionChangeReceiver(connectChangeListener);
+    }
+
     @Override
     public void onDestroy()
     {
@@ -263,7 +281,7 @@ public class ChatService extends Service {
 	notificationIntent.putExtra("user", username);
 	notificationIntent.putExtra("pass", password);
 	PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-	notification.setLatestEventInfo(this, getText(R.string.name), "Chat läuft", pendingIntent);
+	notification.setLatestEventInfo(this, getText(R.string.name), "Chat lï¿½uft", pendingIntent);
 	startForeground(1337, notification);
     }
     
