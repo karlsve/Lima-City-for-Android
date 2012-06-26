@@ -2,6 +2,7 @@ package limaCity.chat;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,7 +36,7 @@ import android.util.Log;
 public class ChatService extends Service {
 
     private ArrayList<ChatMessage> history = new ArrayList<ChatMessage>();
-    private ArrayList<Occupant> user = new ArrayList<Occupant>();
+    private ArrayList<ChatUser> user = new ArrayList<ChatUser>();
     private String username, password, masterkey;
     
     private Timer timer = new Timer();
@@ -52,7 +53,8 @@ public class ChatService extends Service {
 
 	@Override
 	public void onConnectionTypeChanged() {
-	    reconnect();
+	    Log.d("connectionType", "changed");
+	    tryToReconnect();
 	}
 	
     };
@@ -190,12 +192,12 @@ public class ChatService extends Service {
 	if(conn.isAuthenticated())
 	{
 	    String room = getString(R.string.chatRoom)+"@conference."+getString(R.string.limaChatUrl);
-	    if(muc == null)
-		muc = new MultiUserChat(conn, room);
+	    muc = new MultiUserChat(conn, room);
 	    setMucListener();
 	    DiscussionHistory discHist = new DiscussionHistory();
 	    discHist.setMaxStanzas(5);
 	    muc.join(username, password, discHist, SmackConfiguration.getPacketReplyTimeout());
+	    getOccupants();
 	}
     }
 
@@ -215,6 +217,14 @@ public class ChatService extends Service {
 		}
 	    }
 	});
+	muc.addParticipantListener(new PacketListener()
+	{
+	    @Override
+	    public void processPacket(Packet packet) {
+		getOccupants();
+	    }
+	    
+	});
 	muc.addSubjectUpdatedListener(new SubjectUpdatedListener(){
 
 	    @Override
@@ -227,6 +237,21 @@ public class ChatService extends Service {
 	
     }
     
+    protected void getOccupants() {
+	user.clear();
+	for (Iterator<String> i = muc.getOccupants(); i.hasNext(); ) {
+	    String userid = i.next();
+	    user.add(getUser(userid));
+        }
+    }
+    
+    protected ChatUser getUser(String nick)
+    {
+	Occupant current = muc.getOccupant(nick);
+	ChatUser chatUser = new ChatUser(current.getNick(), nick, current.getRole());
+	return chatUser;
+    }
+
     protected void reconnect() {
 	try {
 	    reconnectToXMPP();
@@ -281,7 +306,7 @@ public class ChatService extends Service {
 	notificationIntent.putExtra("user", username);
 	notificationIntent.putExtra("pass", password);
 	PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-	notification.setLatestEventInfo(this, getText(R.string.name), "Chat l�uft", pendingIntent);
+	notification.setLatestEventInfo(this, getText(R.string.name), "Chat läuft", pendingIntent);
 	startForeground(1337, notification);
     }
     
@@ -291,13 +316,7 @@ public class ChatService extends Service {
     }
 
     public ArrayList<ChatUser> getUser() {
-	ArrayList<ChatUser> chatUser = new ArrayList<ChatUser>();
-	for(int i = 0; i<user.size(); i++)
-	{
-	    ChatUser current = new ChatUser(user.get(i).getNick());
-	    chatUser.add(current);
-	}
-	return chatUser;
+	return user;
     }
 
     public ChatSubject getSubject() {

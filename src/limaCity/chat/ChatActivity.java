@@ -76,6 +76,7 @@ public class ChatActivity extends BasicChatActivity
     protected void messageReceived(ChatMessage message) {
 	if(chatItemAdapter != null)
 	{
+	    chatItemAdapter.add(message);
 	    chatItemAdapter.notifyDataSetChanged();
 	    chatList.smoothScrollToPosition(chatItemAdapter.getCount() - 1);
 	}

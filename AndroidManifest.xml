@@ -4,7 +4,7 @@
 		android:versionCode="1"
 		android:versionName="1.0"
 		android:installLocation="auto">
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="11" />
 	<supports-screens android:anyDensity="true" />
       
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -26,12 +26,10 @@
         <service android:name="limaCity.chat.ChatService"></service>
         <activity android:label="@string/name" android:name="limaCity.chat.ChatActivity"></activity>
         <activity android:label="@string/name" android:name="limaCity.chat.UserActivity"></activity>
-		
+        <receiver android:name="limaCity.connection.ConnectionChangeReceiver" android:label="NetworkConnection">
+        	<intent-filter>
+	    		<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+	  		</intent-filter>
+	  	</receiver>
     </application>
-    <receiver android:name="com.blackboard.androidtest.receiver.ConnectionChangeReceiver"
-          android:label="NetworkConnection">
-        <intent-filter>
-	    <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-	  </intent-filter>
-	</receiver>
 </manifest>

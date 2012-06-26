@@ -53,7 +53,7 @@ public class UserItemAdapter extends BaseAdapter {
 	ChatUser current = userItems.get(position);
 	TextView name = (TextView) userListViewItem.findViewById(R.id.textViewUserListItemName);
 	
-	name.setText(current.getNick());
+	name.setText(current.getJid());
 	
 	return userListViewItem;
     }

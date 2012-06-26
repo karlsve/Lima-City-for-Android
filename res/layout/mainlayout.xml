@@ -48,7 +48,7 @@
 		                android:layout_weight=".5"
 		                android:baselineAligned="false"
 		                android:scaleType="center"
-		                android:src="@drawable/photo" />
+		                android:src="@drawable/user_icon" />
 
 		            <TextView
 		                android:id="@+id/textViewMainPageProfileText"
@@ -81,7 +81,7 @@
 		                android:layout_gravity="center_vertical|center_horizontal|center"
 		                android:layout_weight=".5"
 		                android:scaleType="center"
-		                android:src="@drawable/feed" />
+		                android:src="@drawable/server_icon" />
 
 		            <TextView
 		                android:id="@+id/TextViewMainPageServerStatusText"
@@ -120,7 +120,7 @@
 		                android:layout_gravity="center_vertical|center_horizontal|center"
 		                android:layout_weight=".5"
 		                android:scaleType="center"
-		                android:src="@drawable/user" />
+		                android:src="@drawable/friends_icon" />
 
 		            <TextView
 		                android:id="@+id/TextViewMainPageFriendsText"
@@ -147,13 +147,11 @@
 		            android:padding="10dp" >
 
 		            <ImageView
-		                android:id="@+id/ImageViewMainPageGroupsImage"
+		                android:id="@+id/ImageView01"
 		                android:layout_width="fill_parent"
 		                android:layout_height="fill_parent"
-		                android:layout_gravity="center_vertical|center_horizontal|center"
 		                android:layout_weight=".5"
-		                android:scaleType="center"
-		                android:src="@drawable/group" />
+		                android:scaleType="center" android:src="@drawable/group_icon"/>
 
 		            <TextView
 		                android:id="@+id/TextViewMainPageGroupsText"
@@ -192,7 +190,7 @@
 		                android:layout_gravity="center_vertical|center_horizontal|center"
 		                android:layout_weight=".5"
 		                android:scaleType="center"
-		                android:src="@drawable/wrench" />
+		                android:src="@drawable/settings_icon" />
 
 		            <TextView
 		                android:id="@+id/TextViewMainPageVerwaltungText"
@@ -225,7 +223,7 @@
 		                android:layout_gravity="center_vertical|center_horizontal|center"
 		                android:layout_weight=".5"
 		                android:scaleType="center"
-		                android:src="@drawable/emoticon_smile" />
+		                android:src="@drawable/chat_icon" />
 
 		            <TextView
 		                android:id="@+id/TextView03"
@@ -264,7 +262,7 @@
 		                android:layout_gravity="center_vertical|center_horizontal|center"
 		                android:layout_weight=".5"
 		                android:scaleType="center"
-		                android:src="@drawable/page" />
+		                android:src="@drawable/forum_icon" />
 
 		            <TextView
 		                android:id="@+id/TextViewMainPageForumText"
@@ -296,7 +294,7 @@
 		                android:layout_gravity="center_vertical|center_horizontal|center"
 		                android:layout_weight=".5"
 		                android:scaleType="center"
-		                android:src="@drawable/email" />
+		                android:src="@drawable/message_icon" />
 
 		            <TextView
 		                android:id="@+id/TextViewMainPageMessageText"
