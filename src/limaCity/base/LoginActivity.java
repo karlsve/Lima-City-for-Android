@@ -10,7 +10,7 @@ import limaCity.tools.SecurityKeyGeneration;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -83,6 +83,7 @@ public class LoginActivity extends BasicActivity {
 	Context context;
 	String username;
 	String password;
+	String session;
 
 	public LoginTask(Context context) {
 	    this.context = context;
@@ -97,8 +98,10 @@ public class LoginActivity extends BasicActivity {
 
 		this.username = loginData.get("username");
 		this.password = loginData.get("password");
+		this.session = doLogin(username, password);
 
-		loggedIn = doLogin(username, password);
+		loggedIn = this.session != "";
+
 	    }
 	    Log.d("loggedin", Boolean.toString(loggedIn));
 	    return loggedIn;
@@ -109,8 +112,8 @@ public class LoginActivity extends BasicActivity {
 	    progressDialog.dismiss();
 	    int duration = Toast.LENGTH_SHORT;
 	    Toast toast = new Toast(context);
-	    setLoggedIn(this.username, this.password);
 	    if (loggedIn) {
+		setLoggedIn(this.username, this.password, this.session);
 		CharSequence text = "Login erfolgreich!";
 		toast = Toast.makeText(context, text, duration);
 		// initChat();
@@ -130,7 +133,7 @@ public class LoginActivity extends BasicActivity {
 	}
     }
 
-    public void setLoggedIn(String username, String password) {
+    public void setLoggedIn(String username, String password, String session) {
 	SharedPreferences settings = getSharedPreferences(BasicData.PREFS_NAME,
 		0);
 	Editor settingsedit = settings.edit();
@@ -142,6 +145,7 @@ public class LoginActivity extends BasicActivity {
 	}
 	settingsedit.putBoolean("loggedIn", true);
 	settingsedit.putString("user", username);
+	settingsedit.putString("session", session);
 	String encryptedPassword;
 	try {
 	    encryptedPassword = Crypto.encrypt(masterkey, password);
@@ -153,7 +157,7 @@ public class LoginActivity extends BasicActivity {
 
     }
 
-    public boolean doLogin(String username, String password) {
+    public String doLogin(String username, String password) {
 	Document documentContent = null;
 	String url = (String) getText(R.string.limaServerUrl);
 
@@ -163,15 +167,20 @@ public class LoginActivity extends BasicActivity {
 		    .data("user", username, "pass", password, "action", "login")
 		    .userAgent("Mozilla").timeout(3000).post();
 	} catch (IOException e) {
-	    return false;
+	    return "";
 	}
 
-	if (documentContent.select("loggedin").size() > 0) {
-	    Element node = documentContent.select("loggedin").first();
-	    return (node.html().contentEquals("true"));
-	} else {
-	    return false;
+	Elements loginNodes = documentContent.select("loggedin");
+	if (loginNodes.size() > 0) {
+	    if (loginNodes.first().html() == "true") {
+		Elements sessionNodes = documentContent.select("session");
+		if (sessionNodes.size() > 0) {
+		    String session = sessionNodes.first().html();
+		    return session;
+		}
+	    }
 	}
+	return "";
     }
 
     public void initChat() {
