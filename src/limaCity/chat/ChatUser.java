@@ -5,31 +5,26 @@ public class ChatUser {
     private String jid = "";
     private String role = "";
     private String username = "";
-    
-    public ChatUser(String nick, String jid, String role)
-    {
+
+    public ChatUser(String nick, String jid, String role) {
 	this.nick = nick;
 	this.jid = jid;
 	this.role = role;
     }
-    
-    public String getNick()
-    {
+
+    public String getNick() {
 	return nick;
     }
-    
-    public String getJid()
-    {
+
+    public String getJid() {
 	return jid;
     }
-    
-    public String getRole()
-    {
+
+    public String getRole() {
 	return role;
     }
-    
-    public String getUsername()
-    {
+
+    public String getUsername() {
 	return username;
     }
 }

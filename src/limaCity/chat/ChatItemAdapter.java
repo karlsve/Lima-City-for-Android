@@ -15,12 +15,11 @@ public class ChatItemAdapter extends BaseAdapter {
 
     ArrayList<ChatMessage> chatItems = new ArrayList<ChatMessage>();
     Context context;
-    
-    public ChatItemAdapter(Context context)
-    {
+
+    public ChatItemAdapter(Context context) {
 	this.context = context;
     }
-    
+
     @Override
     public int getCount() {
 	return chatItems.size();
@@ -39,23 +38,23 @@ public class ChatItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 	LinearLayout chatListViewItem;
-	
-	if(convertView == null)
-	{
-	    chatListViewItem = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.chatelementlayout, parent, false);
-	}
-	else
-	{
+
+	if (convertView == null) {
+	    chatListViewItem = (LinearLayout) LayoutInflater.from(context)
+		    .inflate(R.layout.chatelementlayout, parent, false);
+	} else {
 	    chatListViewItem = (LinearLayout) convertView;
 	}
-	
+
 	ChatMessage current = chatItems.get(position);
-	TextView name = (TextView) chatListViewItem.findViewById(R.id.textViewChatListItemUser);
-	TextView content = (TextView) chatListViewItem.findViewById(R.id.textViewChatListItemContent);
-	
+	TextView name = (TextView) chatListViewItem
+		.findViewById(R.id.textViewChatListItemUser);
+	TextView content = (TextView) chatListViewItem
+		.findViewById(R.id.textViewChatListItemContent);
+
 	name.setText(current.getFrom());
 	content.setText(current.getBody());
-	
+
 	return chatListViewItem;
     }
 

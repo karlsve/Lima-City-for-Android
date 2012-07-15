@@ -16,12 +16,11 @@ public class UserItemAdapter extends BaseAdapter {
 
     private ArrayList<ChatUser> userItems = new ArrayList<ChatUser>();
     Context context;
-    
-    public UserItemAdapter(Context context)
-    {
+
+    public UserItemAdapter(Context context) {
 	this.context = context;
     }
-    
+
     @Override
     public int getCount() {
 	return userItems.size();
@@ -40,31 +39,28 @@ public class UserItemAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 	LinearLayout userListViewItem;
-	
-	if(convertView == null)
-	{
-	    userListViewItem = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.chatuserelementlayout, parent, false);
-	}
-	else
-	{
+
+	if (convertView == null) {
+	    userListViewItem = (LinearLayout) LayoutInflater.from(context)
+		    .inflate(R.layout.chatuserelementlayout, parent, false);
+	} else {
 	    userListViewItem = (LinearLayout) convertView;
 	}
-	
+
 	ChatUser current = userItems.get(position);
-	TextView name = (TextView) userListViewItem.findViewById(R.id.textViewUserListItemName);
-	
+	TextView name = (TextView) userListViewItem
+		.findViewById(R.id.textViewUserListItemName);
+
 	name.setText(current.getJid());
-	
+
 	return userListViewItem;
     }
-    
-    public void addUser(ChatUser user)
-    {
+
+    public void addUser(ChatUser user) {
 	userItems.add(user);
     }
-    
-    public void setUser(ArrayList<ChatUser> user)
-    {
+
+    public void setUser(ArrayList<ChatUser> user) {
 	userItems.clear();
 	userItems = user;
 	this.notifyDataSetChanged();

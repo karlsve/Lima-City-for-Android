@@ -3,28 +3,24 @@ package limaCity.chat;
 public class ChatSubject {
     private String subject = "";
     private String from = "";
-    
-    public ChatSubject(String subject, String from)
-    {
+
+    public ChatSubject(String subject, String from) {
 	this.subject = subject;
 	this.from = from;
     }
-    
-    public String getSubject()
-    {
+
+    public String getSubject() {
 	return subject;
     }
-    
-    public String getFrom()
-    {
+
+    public String getFrom() {
 	return from;
     }
-    
-    public String getSubjectPrecompiled()
-    {
+
+    public String getSubjectPrecompiled() {
 	String subjectprecompiled = "";
 	subjectprecompiled += this.from;
-	subjectprecompiled += " hat das Thema geändert auf ";
+	subjectprecompiled += " hat das Thema geï¿½ndert auf ";
 	subjectprecompiled += this.subject;
 	return subjectprecompiled;
     }

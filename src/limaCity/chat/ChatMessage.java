@@ -1,23 +1,19 @@
 package limaCity.chat;
 
-public class ChatMessage 
-{
+public class ChatMessage {
     private String body = "";
     private String from = "";
-    
-    public ChatMessage(String body, String from)
-    {
+
+    public ChatMessage(String body, String from) {
 	this.body = body;
 	this.from = from;
     }
-    
-    public String getBody()
-    {
+
+    public String getBody() {
 	return body;
     }
-    
-    public String getFrom()
-    {
+
+    public String getFrom() {
 	return from;
     }
 }

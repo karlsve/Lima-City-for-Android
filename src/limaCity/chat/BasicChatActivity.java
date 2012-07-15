@@ -6,90 +6,80 @@ import limaCity.base.BasicActivity;
 import android.os.Bundle;
 
 public class BasicChatActivity extends BasicActivity {
-    
+
     protected Boolean layoutInitDone = false;
     protected ChatManager manager = null;
-    
-    ChatManagerListener listener = new ChatManagerListener()
-    {
+
+    ChatManagerListener listener = new ChatManagerListener() {
 
 	@Override
 	public void onConnected() {
 	    boundToChat();
 	}
-	
+
 	@Override
-	public void onMessageReceived(ChatMessage message)
-	{
+	public void onMessageReceived(ChatMessage message) {
 	    messageReceived(message);
 	}
-	
+
 	@Override
-	public void onSubjectUpdate(String subject)
-	{
+	public void onSubjectUpdate(String subject) {
 	    subjectUpdateReceived(subject);
 	}
-	
+
 	@Override
-	public void onUserListChanged(ArrayList<ChatUser> user)
-	{
+	public void onUserListChanged(ArrayList<ChatUser> user) {
 	    userListChanged(user);
 	}
-	
+
     };
-    
+
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	bindToChat();
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
 	super.onResume();
-	if(manager != null)
+	if (manager != null)
 	    manager.reconnect();
 	else
 	    bindToChat();
     }
-    
+
     @Override
-    public void onPause()
-    {
+    public void onPause() {
 	unbindFromChat();
 	super.onPause();
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
 	unbindFromChat();
 	super.onDestroy();
     }
-    
+
     protected void bindToChat() {
 	manager = new ChatManager(this, listener);
 	manager.bindToChat();
     }
 
-    protected void boundToChat()
-    {
-	
+    protected void boundToChat() {
+
     }
-    
-    protected void messageReceived(ChatMessage message)
-    {
-	
+
+    protected void messageReceived(ChatMessage message) {
+
     }
-    
+
     protected void subjectUpdateReceived(String subject) {
-	
+
     }
 
     protected void userListChanged(ArrayList<ChatUser> user) {
-	
+
     }
 
     private void unbindFromChat() {

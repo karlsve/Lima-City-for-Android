@@ -8,20 +8,18 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-public class ChatManager
-{
-    
+public class ChatManager {
+
     private Context context = null;
     private static Context staticContext = null;
-    
+
     Boolean boundToChat = false;
-    
+
     private ChatService chatService = null;
-    
+
     private ChatManagerListener managerListener = null;
-    
-    private ChatListener listener = new ChatListener()
-    {
+
+    private ChatListener listener = new ChatListener() {
 
 	@Override
 	public void onMessageReceived(ChatMessage message) {
@@ -35,13 +33,12 @@ public class ChatManager
 
 	@Override
 	public void onUserListChanged() {
-	    
+
 	}
-	
+
     };
-    
-    ServiceConnection serviceConnection = new ServiceConnection()
-    {
+
+    ServiceConnection serviceConnection = new ServiceConnection() {
 
 	@Override
 	public void onServiceConnected(ComponentName className, IBinder service) {
@@ -54,87 +51,79 @@ public class ChatManager
 
 	@Override
 	public void onServiceDisconnected(ComponentName arg0) {
-	    
+
 	}
     };
 
-    
-    public ChatManager(Context context, ChatManagerListener chatManagerListener)
-    {
+    public ChatManager(Context context, ChatManagerListener chatManagerListener) {
 	this.context = context;
 	this.managerListener = chatManagerListener;
     }
-    
-    public ChatSubject getSubject()
-    {
-	if(boundToChat)
+
+    public ChatSubject getSubject() {
+	if (boundToChat)
 	    return chatService.getSubject();
 	else
 	    return new ChatSubject("", "");
     }
-    
+
     protected void subjectChanged(String subject, String from) {
 	listener.onSubjectChanged(subject, from);
     }
 
-    protected void messageReceived(ChatMessage message) 
-    {
-	if(managerListener != null)
+    protected void messageReceived(ChatMessage message) {
+	if (managerListener != null)
 	    managerListener.onMessageReceived(message);
     }
-    
-    public ArrayList<ChatMessage> getHistory()
-    {
-	if(boundToChat)
+
+    public ArrayList<ChatMessage> getHistory() {
+	if (boundToChat)
 	    return chatService.getHistory();
 	else
 	    return new ArrayList<ChatMessage>();
     }
-    
-    public static void startChat(Context activity)
-    {
+
+    public static void startChat(Context activity) {
 	staticContext = activity;
 	Intent service = new Intent(activity, ChatService.class);
 	activity.startService(service);
     }
-    
-    public ArrayList<ChatUser> getUser()
-    {
-	if(boundToChat)
+
+    public ArrayList<ChatUser> getUser() {
+	if (boundToChat)
 	    return chatService.getUser();
 	else
 	    return new ArrayList<ChatUser>();
     }
 
-    public void bindToChat() 
-    {
+    public void bindToChat() {
 	Intent service = new Intent(context, ChatService.class);
-	context.bindService(service, serviceConnection, Context.BIND_AUTO_CREATE);
+	context.bindService(service, serviceConnection,
+		Context.BIND_AUTO_CREATE);
     }
-    
-    public void unbindFromChat()
-    {
-	if(boundToChat)
+
+    public void unbindFromChat() {
+	if (boundToChat)
 	    context.unbindService(serviceConnection);
 	boundToChat = false;
     }
-    
-    public static void stopChat()
-    {
-	if(staticContext != null)
-	{
-    		Intent service = new Intent(staticContext, ChatService.class);
-    		staticContext.stopService(service);
+
+    public static void stopChat() {
+	if (staticContext != null) {
+	    Intent service = new Intent(staticContext, ChatService.class);
+	    staticContext.stopService(service);
 	}
     }
 
     public void sendMessage(String text) {
-	if(boundToChat)
+	if (boundToChat)
 	    chatService.sendMessage(text);
+	else
+	    bindToChat();
     }
 
     public void reconnect() {
-	if(boundToChat)
+	if (boundToChat)
 	    chatService.reconnect();
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="chatRoom">support</string>
+    <string name="chatRoom">lima-city-app-development</string>
     <string name="chatResource">Lima-City Android App</string>
     <string name="chatSendText">Senden</string>
     <string name="chatLeave">Chat verlassen</string>
