@@ -1,22 +1,15 @@
 package limaCity.base;
 
-import java.io.IOException;
 import java.util.Hashtable;
 
 import limaCity.App.R;
 import limaCity.chat.ChatManager;
 import limaCity.tools.Crypto;
-import limaCity.tools.SecurityKeyGeneration;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
+import limaCity.tools.SessionHandling;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,8 +38,9 @@ public class LoginActivity extends BasicActivity {
 	    String decryptedPassword;
 	    try {
 		decryptedPassword = Crypto.decrypt(masterkey, password);
-		initChat();
+		//initChat();
 		startMainActivity(username, decryptedPassword);
+		SessionHandling.startSession(this.getApplicationContext(), username, decryptedPassword);
 	    } catch (Exception e) {
 		Log.e("decrypt", e.getMessage());
 	    }
@@ -83,7 +77,6 @@ public class LoginActivity extends BasicActivity {
 	Context context;
 	String username;
 	String password;
-	String session;
 
 	public LoginTask(Context context) {
 	    this.context = context;
@@ -95,15 +88,10 @@ public class LoginActivity extends BasicActivity {
 	    if (data[0] instanceof Hashtable) {
 		@SuppressWarnings("unchecked")
 		Hashtable<String, String> loginData = (Hashtable<String, String>) data[0];
-
 		this.username = loginData.get("username");
 		this.password = loginData.get("password");
-		this.session = doLogin(username, password);
-
-		loggedIn = this.session != "";
-
+		loggedIn = SessionHandling.startSession(context, username, password);
 	    }
-	    Log.d("loggedin", Boolean.toString(loggedIn));
 	    return loggedIn;
 	}
 
@@ -113,7 +101,6 @@ public class LoginActivity extends BasicActivity {
 	    int duration = Toast.LENGTH_SHORT;
 	    Toast toast = new Toast(context);
 	    if (loggedIn) {
-		setLoggedIn(this.username, this.password, this.session);
 		CharSequence text = "Login erfolgreich!";
 		toast = Toast.makeText(context, text, duration);
 		// initChat();
@@ -131,56 +118,6 @@ public class LoginActivity extends BasicActivity {
 	    progressDialog.setMessage("Versuche einzuloggen...");
 	    progressDialog.show();
 	}
-    }
-
-    public void setLoggedIn(String username, String password, String session) {
-	SharedPreferences settings = getSharedPreferences(BasicData.PREFS_NAME,
-		0);
-	Editor settingsedit = settings.edit();
-	String masterkey = settings.getString("masterkey", "");
-	if (masterkey == "") {
-	    SecurityKeyGeneration keyGen = new SecurityKeyGeneration(this);
-	    masterkey = keyGen.getKey();
-	    settingsedit.putString("masterkey", masterkey);
-	}
-	settingsedit.putBoolean("loggedIn", true);
-	settingsedit.putString("user", username);
-	settingsedit.putString("session", session);
-	String encryptedPassword;
-	try {
-	    encryptedPassword = Crypto.encrypt(masterkey, password);
-	    settingsedit.putString("pass", encryptedPassword);
-	} catch (Exception e) {
-	    Log.e("crypto", e.getMessage());
-	}
-	settingsedit.commit();
-
-    }
-
-    public String doLogin(String username, String password) {
-	Document documentContent = null;
-	String url = (String) getText(R.string.limaServerUrl);
-
-	try {
-	    documentContent = Jsoup
-		    .connect(url)
-		    .data("user", username, "pass", password, "action", "login")
-		    .userAgent("Mozilla").timeout(3000).post();
-	} catch (IOException e) {
-	    return "";
-	}
-
-	Elements loginNodes = documentContent.select("loggedin");
-	if (loginNodes.size() > 0) {
-	    if (loginNodes.first().html() == "true") {
-		Elements sessionNodes = documentContent.select("session");
-		if (sessionNodes.size() > 0) {
-		    String session = sessionNodes.first().html();
-		    return session;
-		}
-	    }
-	}
-	return "";
     }
 
     public void initChat() {

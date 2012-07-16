@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import limaCity.App.R;
 import limaCity.base.BasicActivity;
 import limaCity.tools.ServerHandling;
+import limaCity.tools.SessionHandling;
 import limaCity.tools.XmlWorker;
 
 import org.jsoup.nodes.Document;
@@ -51,8 +52,8 @@ public class ProfileActivity extends BasicActivity {
     }
 
     private void getProfileData() {
-	new AboutTask(this).execute("profile", profileOwner, "type", "about",
-		"exclude", "guestbook,friends,groups");
+	String session = SessionHandling.getSessionKey(this.getApplicationContext());
+	new AboutTask(this).execute("sid", session, "user", profileOwner, "action", "profile");
     }
 
     private class AboutTask extends AsyncTask<String, Void, Document> {
