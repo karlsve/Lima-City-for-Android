@@ -2,10 +2,10 @@ package limaCity.base;
 
 import limaCity.App.R;
 import limaCity.chat.ChatManager;
+import limaCity.tools.SessionHandling;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,11 +46,7 @@ public class BasicActivity extends Activity {
 
     public void logout() {
 	ChatManager.stopChat();
-	SharedPreferences prefs = this.getSharedPreferences(
-		BasicData.PREFS_NAME, 0);
-	Editor edit = prefs.edit();
-	edit.clear();
-	edit.commit();
+	SessionHandling.stopSession(this.getApplicationContext());
 	this.finish();
     }
 
