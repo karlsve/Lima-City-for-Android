@@ -11,7 +11,6 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 public class ServerStatusActivity extends BasicActivity {
@@ -34,7 +33,6 @@ public class ServerStatusActivity extends BasicActivity {
 
     @Override
     protected void getData() {
-	Log.d("session", session);
 	new ServerStatusTask(this).execute("sid", session, "action", "serverstatus");
     }
     
@@ -57,8 +55,8 @@ public class ServerStatusActivity extends BasicActivity {
 	@Override
 	protected void onPostExecute(Document result) {
 	    if (result != null) {
-		Log.d("html", result.html());
 		serverStatusItemAdapter.clear();
+		serverStatusItemAdapter.notifyDataSetChanged();
 		Elements serverStatusNodes = result.select("serverstatus");
 		if (serverStatusNodes.size() > 0) {
 		    Elements nodes = serverStatusNodes.first().select("info");
@@ -76,12 +74,6 @@ public class ServerStatusActivity extends BasicActivity {
 	protected void onPreExecute() {
 
 	}
-    }
-
-    @Override
-    public void refreshPage() {
-	serverStatusItemAdapter.clear();
-	super.refreshPage();
     }
     
 }

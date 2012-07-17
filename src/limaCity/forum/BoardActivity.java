@@ -16,7 +16,7 @@ import android.widget.ListView;
 public class BoardActivity extends BasicActivity {
 
     protected BoardItemAdapter boardItemsAdapter = null;
-    
+
     protected String board = "";
     protected String page = "";
 
@@ -46,7 +46,7 @@ public class BoardActivity extends BasicActivity {
 
     @Override
     protected void getData() {
-	new BoardTask(this).execute("sid", session, "action", "board", "name", 
+	new BoardTask(this).execute("sid", session, "action", "board", "name",
 		board);
     }
 
@@ -68,21 +68,25 @@ public class BoardActivity extends BasicActivity {
 
 	@Override
 	protected void onPostExecute(Document result) {
-	    Elements boardNodes = result.select("board");
-	    if (boardNodes.size() > 0) {
-		Element boardNode = boardNodes.first();
-		Elements threadNodes = boardNode.select("thread");
-		for (Element threadNode : threadNodes) {
-		    String url = getNodeContent("url", threadNode);
-		    String name = getNodeContent("name", threadNode);
-		    String views = getNodeContent("views", threadNode);
-		    String replies = getNodeContent("replies", threadNode);
-		    String author = getNodeContent("author", threadNode);
-		    String date = getNodeContent("date", threadNode);
-		    if (url.length() > 0 && name.length() > 0) {
-			boardItemsAdapter.addItem(url, name, views, replies,
-				author, date);
-			boardItemsAdapter.notifyDataSetChanged();
+	    if (result != null) {
+		boardItemsAdapter.clear();
+		boardItemsAdapter.notifyDataSetChanged();
+		Elements boardNodes = result.select("board");
+		if (boardNodes.size() > 0) {
+		    Element boardNode = boardNodes.first();
+		    Elements threadNodes = boardNode.select("thread");
+		    for (Element threadNode : threadNodes) {
+			String url = getNodeContent("url", threadNode);
+			String name = getNodeContent("name", threadNode);
+			String views = getNodeContent("views", threadNode);
+			String replies = getNodeContent("replies", threadNode);
+			String author = getNodeContent("author", threadNode);
+			String date = getNodeContent("date", threadNode);
+			if (url.length() > 0 && name.length() > 0) {
+			    boardItemsAdapter.addItem(url, name, views,
+				    replies, author, date);
+			    boardItemsAdapter.notifyDataSetChanged();
+			}
 		    }
 		}
 	    }
@@ -100,12 +104,6 @@ public class BoardActivity extends BasicActivity {
 	    return nodes.first().html();
 	}
 	return "";
-    }
-
-    @Override
-    public void refreshPage() {
-	boardItemsAdapter.clear();
-	super.refreshPage();
     }
 
 }

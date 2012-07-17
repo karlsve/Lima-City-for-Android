@@ -70,6 +70,7 @@ public class ProfileActivity extends BasicActivity {
 	protected void onPostExecute(Document result) {
 	    if (result != null) {
 		profileItemAdapter.clear();
+		profileItemAdapter.notifyDataSetChanged();
 		Elements profileNodes = result.select("profile");
 		if (profileNodes.size() > 0) {
 		    Elements nodes = profileNodes.first().children();
@@ -88,12 +89,5 @@ public class ProfileActivity extends BasicActivity {
 	protected void onPreExecute() {
 
 	}
-    }
-
-    @Override
-    public void refreshPage() {
-	profileItemAdapter.clear();
-	profileItemAdapter.notifyDataSetChanged();
-	super.refreshPage();
     }
 }

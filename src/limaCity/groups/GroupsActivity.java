@@ -66,13 +66,19 @@ public class GroupsActivity extends BasicActivity {
 
 	@Override
 	protected void onPostExecute(Document result) {
-	    Elements groupNodes = result.select("groups");
-	    if (groupNodes.size() > 0) {
-		Elements nodes = groupNodes.first().children();
-		for (Element node : nodes) {
-		    String name = node.text();
-		    groupItemAdapter.addGroupItem(name);
-		    groupItemAdapter.notifyDataSetChanged();
+	    if(result != null)
+	    {
+		groupItemAdapter.clear();
+		groupItemAdapter.notifyDataSetChanged();
+		Elements groupNodes = result.select("groups");
+		if (groupNodes.size() > 0)
+		{
+		    Elements nodes = groupNodes.first().children();
+		    for (Element node : nodes) {
+			String name = node.text();
+			groupItemAdapter.addGroupItem(name);
+			groupItemAdapter.notifyDataSetChanged();
+		    }
 		}
 	    }
 	}
@@ -81,12 +87,6 @@ public class GroupsActivity extends BasicActivity {
 	protected void onPreExecute() {
 
 	}
-    }
-
-    @Override
-    public void refreshPage() {
-	groupItemAdapter.clear();
-	super.refreshPage();
     }
 
 }

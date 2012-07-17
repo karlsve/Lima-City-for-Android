@@ -34,8 +34,7 @@ public class ForumActivity extends BasicActivity {
 
     @Override
     protected void getData() {
-	new ForumTask(this)
-		.execute("sid", session, "action", "forumlist");
+	new ForumTask(this).execute("sid", session, "action", "forumlist");
     }
 
     private class ForumTask extends AsyncTask<String, Void, Document> {
@@ -56,40 +55,45 @@ public class ForumActivity extends BasicActivity {
 
 	@Override
 	protected void onPostExecute(Document result) {
-	    Elements nodes = result.select("forum").first().select("board");
-	    for (Element node : nodes) {
-		String url = "";
-		String name = "";
-		String description = "";
-		String moderators = "";
+	    if (result != null) {
+		forumItemAdapter.clear();
+		forumItemAdapter.notifyDataSetChanged();
+		Elements nodes = result.select("forum").first().select("board");
+		for (Element node : nodes) {
+		    String url = "";
+		    String name = "";
+		    String description = "";
+		    String moderators = "";
 
-		Elements nameNodes = node.select("name");
-		if (nameNodes.size() > 0) {
-		    url = nameNodes.first().attr("url");
-		    name = nameNodes.first().html();
-		}
-		Elements descriptionNodes = node.select("description");
-		if (descriptionNodes.size() > 0) {
-		    description = descriptionNodes.first().html();
-		}
+		    Elements nameNodes = node.select("name");
+		    if (nameNodes.size() > 0) {
+			url = nameNodes.first().attr("url");
+			name = nameNodes.first().html();
+		    }
+		    Elements descriptionNodes = node.select("description");
+		    if (descriptionNodes.size() > 0) {
+			description = descriptionNodes.first().html();
+		    }
 
-		Elements modsNodes = node.select("moderatoren");
-		if (modsNodes.size() > 0) {
-		    Elements modNodes = modsNodes.first().select("moderator");
-		    if (modNodes.size() > 0) {
-			for (Element modNode : modNodes) {
-			    if (moderators.length() == 0) {
-				moderators += modNode.html();
-			    } else {
-				moderators += ", " + modNode.html();
+		    Elements modsNodes = node.select("moderatoren");
+		    if (modsNodes.size() > 0) {
+			Elements modNodes = modsNodes.first().select(
+				"moderator");
+			if (modNodes.size() > 0) {
+			    for (Element modNode : modNodes) {
+				if (moderators.length() == 0) {
+				    moderators += modNode.html();
+				} else {
+				    moderators += ", " + modNode.html();
+				}
 			    }
 			}
 		    }
-		}
-		if (url.length() > 0 && name.length() > 0) {
-		    forumItemAdapter.addFriendItem(url, name, description,
-			    moderators);
-		    forumItemAdapter.notifyDataSetChanged();
+		    if (url.length() > 0 && name.length() > 0) {
+			forumItemAdapter.addFriendItem(url, name, description,
+				moderators);
+			forumItemAdapter.notifyDataSetChanged();
+		    }
 		}
 	    }
 	}
@@ -98,11 +102,5 @@ public class ForumActivity extends BasicActivity {
 	protected void onPreExecute() {
 
 	}
-    }
-
-    @Override
-    public void refreshPage() {
-	forumItemAdapter.clear();
-	super.refreshPage();
     }
 }

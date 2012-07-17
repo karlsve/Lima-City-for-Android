@@ -11,7 +11,6 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 public class FriendsActivity extends BasicActivity {
@@ -43,8 +42,8 @@ public class FriendsActivity extends BasicActivity {
 
     @Override
     protected void getData() {
-	new FriendTask(this.getApplicationContext()).execute("sid", session, "user", profileOwner,
-		"action", "profile");
+	new FriendTask(this.getApplicationContext()).execute("sid", session,
+		"user", profileOwner, "action", "profile");
     }
 
     private class FriendTask extends AsyncTask<String, Void, Document> {
@@ -65,6 +64,8 @@ public class FriendsActivity extends BasicActivity {
 	@Override
 	protected void onPostExecute(Document result) {
 	    if (result != null) {
+		friendItemAdapter.clear();
+		friendItemAdapter.notifyDataSetChanged();
 		Elements friendNodes = result.select("friends");
 		if (friendNodes.size() > 0) {
 		    Elements nodes = friendNodes.first().children();
@@ -75,21 +76,11 @@ public class FriendsActivity extends BasicActivity {
 		    }
 		}
 	    }
-	    else
-	    {
-		Log.d("friendList", "Something went wrong!");
-	    }
 	}
 
 	@Override
 	protected void onPreExecute() {
 
 	}
-    }
-
-    @Override
-    public void refreshPage() {
-	friendItemAdapter.clear();
-	super.refreshPage();
     }
 }
