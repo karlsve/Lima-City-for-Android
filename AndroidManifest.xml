@@ -31,5 +31,6 @@
 	    		<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
 	  		</intent-filter>
 	  	</receiver>
+        <activity android:name="limaCity.serverstatus.ServerStatusActivity" android:label="@string/name"></activity>
     </application>
 </manifest>

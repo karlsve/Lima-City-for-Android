@@ -3,7 +3,6 @@ package limaCity.friends;
 import limaCity.App.R;
 import limaCity.base.BasicActivity;
 import limaCity.tools.ServerHandling;
-import limaCity.tools.SessionHandling;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,29 +20,29 @@ public class FriendsActivity extends BasicActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	setContentView(R.layout.friendslayout);
-	initVariables();
-	initFriendsData();
+	super.onCreate(savedInstanceState);
     }
 
-    private void initVariables() {
+    @Override
+    protected void initVariables() {
+	super.initVariables();
 	Bundle extras = getIntent().getExtras();
 	if (extras != null) {
 	    profileOwner = extras.getString("profile");
 	}
     }
 
-    private void initFriendsData() {
+    @Override
+    protected void initData() {
 	ListView friendPage = (ListView) findViewById(R.id.FriendsPageContent);
 	friendItemAdapter = new FriendItemAdapter(this);
 	friendPage.setAdapter(friendItemAdapter);
-	getFriendsData();
+	super.initData();
     }
 
-    private void getFriendsData() {
-	String session = SessionHandling.getSessionKey(this
-		.getApplicationContext());
+    @Override
+    protected void getData() {
 	new FriendTask(this.getApplicationContext()).execute("sid", session, "user", profileOwner,
 		"action", "profile");
     }
@@ -66,7 +65,6 @@ public class FriendsActivity extends BasicActivity {
 	@Override
 	protected void onPostExecute(Document result) {
 	    if (result != null) {
-		Log.d("friendList", result.html());
 		Elements friendNodes = result.select("friends");
 		if (friendNodes.size() > 0) {
 		    Elements nodes = friendNodes.first().children();
@@ -92,6 +90,6 @@ public class FriendsActivity extends BasicActivity {
     @Override
     public void refreshPage() {
 	friendItemAdapter.clear();
-	this.getFriendsData();
+	super.refreshPage();
     }
 }

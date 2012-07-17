@@ -6,6 +6,7 @@ import limaCity.forum.ForumActivity;
 import limaCity.friends.FriendsActivity;
 import limaCity.groups.GroupsActivity;
 import limaCity.profile.ProfileActivity;
+import limaCity.serverstatus.ServerStatusActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,18 +19,27 @@ import android.widget.LinearLayout;
 
 public class MainActivity extends BasicActivity {
     private String user = "";
-    private String pass = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	setContentView(R.layout.mainlayout);
-	initVariables();
+	super.onCreate(savedInstanceState);
 	initProfileActivity();
 	initFriendsActivity();
 	initGroupsActivity();
 	initForumActivity();
+	initServerStatusActivity();
 	// initChatActivity();
+    }
+    
+    @Override
+    protected void initVariables()
+    {
+	super.initVariables();
+	Bundle extras = getIntent().getExtras();
+	if (extras != null) {
+	    user = extras.getString("user");
+	}
     }
 
     @SuppressWarnings("unused")
@@ -48,14 +58,7 @@ public class MainActivity extends BasicActivity {
     protected void startChatActivity() {
 	Intent intent = new Intent(this, ChatActivity.class);
 	intent.putExtra("user", user);
-	intent.putExtra("pass", pass);
 	startActivity(intent);
-    }
-
-    private void initVariables() {
-	Bundle extra = this.getIntent().getExtras();
-	user = extra.getString("user");
-	pass = extra.getString("pass");
     }
 
     private void initForumActivity() {
@@ -73,7 +76,6 @@ public class MainActivity extends BasicActivity {
     protected void startForumActivity() {
 	Intent intent = new Intent(this, ForumActivity.class);
 	intent.putExtra("user", user);
-	intent.putExtra("pass", pass);
 	startActivity(intent);
     }
 
@@ -92,8 +94,6 @@ public class MainActivity extends BasicActivity {
     protected void startGroupsActivity() {
 	Intent intent = new Intent(this, GroupsActivity.class);
 	intent.putExtra("profile", user);
-	intent.putExtra("user", user);
-	intent.putExtra("pass", pass);
 	startActivity(intent);
     }
 
@@ -112,8 +112,6 @@ public class MainActivity extends BasicActivity {
     protected void startFriendsActivity() {
 	Intent intent = new Intent(this, FriendsActivity.class);
 	intent.putExtra("profile", user);
-	intent.putExtra("user", user);
-	intent.putExtra("pass", pass);
 	startActivity(intent);
     }
 
@@ -132,8 +130,23 @@ public class MainActivity extends BasicActivity {
     protected void startProfileActivity() {
 	Intent intent = new Intent(this, ProfileActivity.class);
 	intent.putExtra("profile", user);
-	intent.putExtra("user", user);
-	intent.putExtra("pass", pass);
+	startActivity(intent);
+    }
+    
+    private void initServerStatusActivity() {
+	LinearLayout serverStatusItem = (LinearLayout) findViewById(R.id.LinearLayoutMainPageServerStatusClick);
+	OnClickListener serverStatusClick = new OnClickListener() {
+	    public void onClick(View v) {
+		Log.d("click", "serverStatusPage");
+		startServerStatusActivity();
+	    }
+	};
+
+	serverStatusItem.setOnClickListener(serverStatusClick);
+    }
+    
+    protected void startServerStatusActivity() {
+	Intent intent = new Intent(this, ServerStatusActivity.class);
 	startActivity(intent);
     }
 

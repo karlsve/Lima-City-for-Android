@@ -20,30 +20,22 @@ public class ForumActivity extends BasicActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	setContentView(R.layout.forumlayout);
-	initVariables();
-	initForumData();
+	super.onCreate(savedInstanceState);
     }
 
-    private void initVariables() {
-	Bundle extras = getIntent().getExtras();
-	if (extras != null) {
-	    user = extras.getString("user");
-	    pass = extras.getString("pass");
-	}
-    }
-
-    private void initForumData() {
+    @Override
+    protected void initData() {
 	ListView forumPage = (ListView) findViewById(R.id.ForumPageLayout);
 	forumItemAdapter = new ForumItemAdapter(this, user, pass);
 	forumPage.setAdapter(forumItemAdapter);
-	getForumData();
+	super.initData();
     }
 
-    private void getForumData() {
+    @Override
+    protected void getData() {
 	new ForumTask(this)
-		.execute("user", user, "pass", pass, "type", "forum");
+		.execute("sid", session, "action", "forumlist");
     }
 
     private class ForumTask extends AsyncTask<String, Void, Document> {
@@ -111,6 +103,6 @@ public class ForumActivity extends BasicActivity {
     @Override
     public void refreshPage() {
 	forumItemAdapter.clear();
-	this.getForumData();
+	super.refreshPage();
     }
 }

@@ -22,31 +22,30 @@ public class GroupsActivity extends BasicActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	setContentView(R.layout.groupslayout);
-	initVariables();
-	initGroupsData();
+	super.onCreate(savedInstanceState);
     }
 
-    private void initVariables() {
+    @Override
+    protected void initVariables() {
+	super.initVariables();
 	Bundle extras = getIntent().getExtras();
 	if (extras != null) {
-	    user = extras.getString("user");
-	    pass = extras.getString("pass");
 	    profileOwner = extras.getString("profile");
 	}
     }
 
-    private void initGroupsData() {
+    @Override
+    protected void initData() {
 	ListView groupPage = (ListView) findViewById(R.id.GroupsPageContent);
 	groupItemAdapter = new GroupItemAdapter(this);
 	groupPage.setAdapter(groupItemAdapter);
-	getGroupsData();
+	super.initData();
     }
 
-    private void getGroupsData() {
-	new GroupTask(this).execute("profile", profileOwner, "type", "about",
-		"exclude", "profile,guestbook,friends");
+    @Override
+    protected void getData() {
+	new GroupTask(this).execute("sid", session, "user", profileOwner, "action", "profile");
     }
 
     private class GroupTask extends AsyncTask<String, Void, Document> {
@@ -87,7 +86,7 @@ public class GroupsActivity extends BasicActivity {
     @Override
     public void refreshPage() {
 	groupItemAdapter.clear();
-	this.getGroupsData();
+	super.refreshPage();
     }
 
 }

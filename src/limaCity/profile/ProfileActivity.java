@@ -1,11 +1,8 @@
 package limaCity.profile;
 
-import java.util.Hashtable;
-
 import limaCity.App.R;
 import limaCity.base.BasicActivity;
 import limaCity.tools.ServerHandling;
-import limaCity.tools.SessionHandling;
 import limaCity.tools.XmlWorker;
 
 import org.jsoup.nodes.Document;
@@ -19,40 +16,37 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class ProfileActivity extends BasicActivity {
-    ProfileItemAdapter profileItemAdapter = null;
-    Hashtable<String, String> profileItems = new Hashtable<String, String>();
-    String profileOwner = "";
-    String user = "";
-    String pass = "";
+    
+    protected ProfileItemAdapter profileItemAdapter = null;
+    protected String profileOwner = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	setContentView(R.layout.profilelayout);
-	initVariables();
-	initProfileData();
+	super.onCreate(savedInstanceState);
     }
 
-    private void initVariables() {
+    @Override
+    protected void initVariables() {
+	super.initVariables();
 	Bundle extras = getIntent().getExtras();
 	if (extras != null) {
 	    profileOwner = extras.getString("profile");
-	    user = extras.getString("user");
-	    pass = extras.getString("pass");
 	}
     }
 
-    private void initProfileData() {
+    @Override
+    protected void initData() {
 	TextView username = (TextView) findViewById(R.id.textViewProfilePageName);
 	username.setText(profileOwner);
 	ListView profilePage = (ListView) findViewById(R.id.ProfilePageContent);
 	profileItemAdapter = new ProfileItemAdapter(this);
 	profilePage.setAdapter(profileItemAdapter);
-	getProfileData();
+	super.initData();
     }
 
-    private void getProfileData() {
-	String session = SessionHandling.getSessionKey(this.getApplicationContext());
+    @Override
+    protected void getData() {
 	new AboutTask(this).execute("sid", session, "user", profileOwner, "action", "profile");
     }
 
@@ -99,6 +93,6 @@ public class ProfileActivity extends BasicActivity {
     @Override
     public void refreshPage() {
 	profileItemAdapter.clear();
-	this.getProfileData();
+	super.refreshPage();
     }
 }

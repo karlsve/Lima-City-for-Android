@@ -1,7 +1,5 @@
 package limaCity.forum;
 
-import java.util.Hashtable;
-
 import limaCity.App.R;
 import limaCity.base.BasicActivity;
 import limaCity.tools.ServerHandling;
@@ -13,47 +11,43 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 
 public class BoardActivity extends BasicActivity {
 
-    BoardItemAdapter boardItemsAdapter = null;
-    Hashtable<String, String> profileItems = new Hashtable<String, String>();
-    String user = "";
-    String pass = "";
-    String board = "";
-    String page = "";
+    protected BoardItemAdapter boardItemsAdapter = null;
+    
+    protected String board = "";
+    protected String page = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
 	setContentView(R.layout.boardlayout);
-	initVariables();
-	initBoardData();
+	super.onCreate(savedInstanceState);
     }
 
-    private void initVariables() {
+    @Override
+    protected void initVariables() {
+	super.initVariables();
 	Bundle extras = getIntent().getExtras();
 	if (extras != null) {
-	    user = extras.getString("user");
-	    pass = extras.getString("pass");
 	    board = extras.getString("board");
 	    page = extras.getString("page");
 	}
     }
 
-    private void initBoardData() {
-	ListView boardPAge = (ListView) findViewById(R.id.BoardPageContent);
+    @Override
+    protected void initData() {
+	ListView boardPage = (ListView) findViewById(R.id.BoardPageContent);
 	boardItemsAdapter = new BoardItemAdapter(this);
-	boardPAge.setAdapter(boardItemsAdapter);
-	getBoardData();
+	boardPage.setAdapter(boardItemsAdapter);
+	super.initData();
     }
 
-    private void getBoardData() {
-	new BoardTask(this).execute("user", user, "pass", pass, "type",
-		"board", "board", board);
-	Log.d("board", board);
+    @Override
+    protected void getData() {
+	new BoardTask(this).execute("sid", session, "action", "board", "name", 
+		board);
     }
 
     private class BoardTask extends AsyncTask<String, Void, Document> {
@@ -111,7 +105,7 @@ public class BoardActivity extends BasicActivity {
     @Override
     public void refreshPage() {
 	boardItemsAdapter.clear();
-	getBoardData();
+	super.refreshPage();
     }
 
 }

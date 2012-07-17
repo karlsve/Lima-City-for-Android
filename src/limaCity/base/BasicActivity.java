@@ -6,11 +6,34 @@ import limaCity.tools.SessionHandling;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
 public class BasicActivity extends Activity {
+
+    protected String session = "";
+    
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+	super.onCreate(savedInstanceState);
+	initVariables();
+	initData();
+    }
+    
+    protected void initData()
+    {
+	getData();
+    }
+    
+    protected void initVariables() {
+	Bundle extras = getIntent().getExtras();
+	if (extras != null) {
+	    session = SessionHandling.getSessionKey(this.getApplicationContext());
+	}
+    }
 
     @Override
     public void onResume() {
@@ -59,7 +82,12 @@ public class BasicActivity extends Activity {
     }
 
     public void refreshPage() {
-
+	getData();
+    }
+    
+    protected void getData()
+    {
+	
     }
 
     public void resumeStandard() {

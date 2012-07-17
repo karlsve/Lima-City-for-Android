@@ -127,7 +127,6 @@ public class LoginActivity extends BasicActivity {
     public void startMainActivity(String username, String password) {
 	Intent intent = new Intent(this, MainActivity.class);
 	intent.putExtra("user", username);
-	intent.putExtra("pass", password);
 	startActivity(intent);
     }
 
