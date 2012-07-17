@@ -111,6 +111,7 @@ public class ForumItemAdapter extends BaseAdapter {
     }
 
     public void clear() {
+	forumItemNames.clear();
 	forumItems.clear();
     }
 
