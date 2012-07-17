@@ -29,10 +29,7 @@ public class BasicActivity extends Activity {
     }
     
     protected void initVariables() {
-	Bundle extras = getIntent().getExtras();
-	if (extras != null) {
-	    session = SessionHandling.getSessionKey(this.getApplicationContext());
-	}
+	session = SessionHandling.getSessionKey(this.getApplicationContext());
     }
 
     @Override

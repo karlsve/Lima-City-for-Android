@@ -3,7 +3,6 @@ package limaCity.serverstatus;
 import limaCity.App.R;
 import limaCity.base.BasicActivity;
 import limaCity.tools.ServerHandling;
-import limaCity.tools.XmlWorker;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,6 +11,7 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 public class ServerStatusActivity extends BasicActivity {
@@ -34,6 +34,7 @@ public class ServerStatusActivity extends BasicActivity {
 
     @Override
     protected void getData() {
+	Log.d("session", session);
 	new ServerStatusTask(this).execute("sid", session, "action", "serverstatus");
     }
     
@@ -56,13 +57,14 @@ public class ServerStatusActivity extends BasicActivity {
 	@Override
 	protected void onPostExecute(Document result) {
 	    if (result != null) {
+		Log.d("html", result.html());
 		serverStatusItemAdapter.clear();
 		Elements serverStatusNodes = result.select("serverstatus");
 		if (serverStatusNodes.size() > 0) {
 		    Elements nodes = serverStatusNodes.first().select("info");
 		    for (Element node : nodes) {
 			String name = node.attr("name");
-			String content = XmlWorker.htmlToText(node.attr("time"));
+			String content = node.attr("time");
 			serverStatusItemAdapter.addItem(name, content);
 			serverStatusItemAdapter.notifyDataSetChanged();
 		    }

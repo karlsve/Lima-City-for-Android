@@ -39,8 +39,9 @@ public class LoginActivity extends BasicActivity {
 	    try {
 		decryptedPassword = Crypto.decrypt(masterkey, password);
 		//initChat();
-		startMainActivity(username, decryptedPassword);
+		SessionHandling.stopSession(this.getApplicationContext());
 		SessionHandling.startSession(this.getApplicationContext(), username, decryptedPassword);
+		startMainActivity(username, decryptedPassword);
 	    } catch (Exception e) {
 		Log.e("decrypt", e.getMessage());
 	    }

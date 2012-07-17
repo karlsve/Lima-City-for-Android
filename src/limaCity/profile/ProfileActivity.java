@@ -93,6 +93,7 @@ public class ProfileActivity extends BasicActivity {
     @Override
     public void refreshPage() {
 	profileItemAdapter.clear();
+	profileItemAdapter.notifyDataSetChanged();
 	super.refreshPage();
     }
 }
