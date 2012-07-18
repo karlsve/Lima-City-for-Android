@@ -14,9 +14,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 public class ForumActivity extends BasicActivity {
-    ForumItemAdapter forumItemAdapter = null;
-    String user = "";
-    String pass = "";
+    private ForumItemAdapter forumItemAdapter = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,8 +24,8 @@ public class ForumActivity extends BasicActivity {
 
     @Override
     protected void initData() {
-	ListView forumPage = (ListView) findViewById(R.id.ForumPageLayout);
-	forumItemAdapter = new ForumItemAdapter(this, user, pass);
+	ListView forumPage = (ListView) findViewById(R.id.ForumContent);
+	forumItemAdapter = new ForumItemAdapter(this);
 	forumPage.setAdapter(forumItemAdapter);
 	super.initData();
     }

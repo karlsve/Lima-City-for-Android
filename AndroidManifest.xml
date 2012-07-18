@@ -32,5 +32,6 @@
 	  		</intent-filter>
 	  	</receiver>
         <activity android:name="limaCity.serverstatus.ServerStatusActivity" android:label="@string/name"></activity>
+        <activity android:name="limaCity.forum.ThreadActivity" android:label="@string/name"></activity>
     </application>
 </manifest>

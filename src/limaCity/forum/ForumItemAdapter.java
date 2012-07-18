@@ -22,13 +22,9 @@ public class ForumItemAdapter extends BaseAdapter {
     ArrayList<String> forumItemNames = new ArrayList<String>();
     LinkedHashMap<String, ForumItem> forumItems = new LinkedHashMap<String, ForumItem>();
     Context context = null;
-    String user = "";
-    String pass = "";
 
-    public ForumItemAdapter(Context context, String user, String pass) {
+    public ForumItemAdapter(Context context) {
 	this.context = context;
-	this.user = user;
-	this.pass = pass;
     }
 
     @Override
@@ -70,13 +66,13 @@ public class ForumItemAdapter extends BaseAdapter {
 	TextView moderators = (TextView) forumListItem
 		.findViewById(R.id.textViewBoardModerator);
 	moderators.setText(moderatorstext);
-	forumListItem = setLayoutOnClick(forumListItem, url, "1");
+	forumListItem = setLayoutOnClick(forumListItem, url, 1);
 
 	return forumListItem;
     }
 
     private LinearLayout setLayoutOnClick(LinearLayout forumListItem,
-	    final String url, final String page) {
+	    final String url, final int page) {
 	OnClickListener boardClick = new OnClickListener() {
 
 	    @Override
@@ -90,10 +86,8 @@ public class ForumItemAdapter extends BaseAdapter {
 	return forumListItem;
     }
 
-    protected void startBoardActivity(String board, String page) {
+    protected void startBoardActivity(String board, int page) {
 	Intent intent = new Intent(context, BoardActivity.class);
-	intent.putExtra("user", user);
-	intent.putExtra("pass", pass);
 	intent.putExtra("board", board);
 	intent.putExtra("page", page);
 	context.startActivity(intent);

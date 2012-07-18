@@ -18,7 +18,7 @@ public class BoardActivity extends BasicActivity {
     protected BoardItemAdapter boardItemsAdapter = null;
 
     protected String board = "";
-    protected String page = "";
+    protected int page = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class BoardActivity extends BasicActivity {
 	Bundle extras = getIntent().getExtras();
 	if (extras != null) {
 	    board = extras.getString("board");
-	    page = extras.getString("page");
+	    page = extras.getInt("page");
 	}
     }
 
@@ -98,7 +98,7 @@ public class BoardActivity extends BasicActivity {
 	}
     }
 
-    protected String getNodeContent(String nodeName, Element parentNode) {
+    private String getNodeContent(String nodeName, Element parentNode) {
 	Elements nodes = parentNode.select(nodeName);
 	if (nodes.size() > 0) {
 	    return nodes.first().html();

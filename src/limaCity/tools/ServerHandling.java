@@ -14,7 +14,7 @@ public class ServerHandling {
 		documentContent = Jsoup.connect(url).data(data)
 			.userAgent("Mozilla").timeout(6000).post();
 	    } catch (Exception e) {
-		Log.d("postFromServer", e.getMessage());
+		Log.d("postFromServer", e.getMessage()+ " ");
 	    }
 	}
 	return documentContent;

@@ -4,7 +4,7 @@
 
 
 	<ListView
-	    android:id="@+id/ForumPageLayout"
+	    android:id="@+id/ForumContent"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:fadeScrollbars="true"
