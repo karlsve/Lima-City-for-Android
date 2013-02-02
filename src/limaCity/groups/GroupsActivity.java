@@ -2,91 +2,61 @@ package limaCity.groups;
 
 import limaCity.App.R;
 import limaCity.base.BasicActivity;
-import limaCity.tools.ServerHandling;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ListView;
 
 public class GroupsActivity extends BasicActivity {
 
-    GroupItemAdapter groupItemAdapter = null;
-    String profileOwner = "";
-    String user = "";
-    String pass = "";
+	GroupItemAdapter groupItemAdapter = null;
+	String profileOwner = "";
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	setContentView(R.layout.groupslayout);
-	super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void initVariables() {
-	super.initVariables();
-	Bundle extras = getIntent().getExtras();
-	if (extras != null) {
-	    profileOwner = extras.getString("profile");
-	}
-    }
-
-    @Override
-    protected void initData() {
-	ListView groupPage = (ListView) findViewById(R.id.GroupsPageContent);
-	groupItemAdapter = new GroupItemAdapter(this);
-	groupPage.setAdapter(groupItemAdapter);
-	super.initData();
-    }
-
-    @Override
-    protected void getData() {
-	new GroupTask(this).execute("sid", session, "user", profileOwner, "action", "profile");
-    }
-
-    private class GroupTask extends AsyncTask<String, Void, Document> {
-
-	Context context = null;
-
-	public GroupTask(Context context) {
-	    this.context = context;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.groupslayout);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
-	protected Document doInBackground(String... data) {
-	    Document documentContent = null;
-	    documentContent = ServerHandling.postFromServer(
-		    context.getString(R.string.limaServerUrl), data);
-	    return documentContent;
+	protected void initData() {
+		super.initData();
+		profileOwner = this.getIntent().getStringExtra("profile");
+		ListView groupPage = (ListView) findViewById(R.id.GroupsPageContent);
+		groupItemAdapter = new GroupItemAdapter(this);
+		groupPage.setAdapter(groupItemAdapter);
 	}
-
+	
 	@Override
-	protected void onPostExecute(Document result) {
-	    if(result != null)
-	    {
-		groupItemAdapter.clear();
-		groupItemAdapter.notifyDataSetChanged();
-		Elements groupNodes = result.select("groups");
-		if (groupNodes.size() > 0)
+	protected void getData() {
+		new Thread()
 		{
-		    Elements nodes = groupNodes.first().children();
-		    for (Element node : nodes) {
-			String name = node.text();
-			groupItemAdapter.addGroupItem(name);
-			groupItemAdapter.notifyDataSetChanged();
-		    }
-		}
-	    }
+			@Override
+			public void run() {
+				sessionService.getGroups(profileOwner);
+			}
+		}.start();
 	}
-
+	
 	@Override
-	protected void onPreExecute() {
-
+	protected void onDataReceived(Document document)
+	{
+		if (document != null) {
+			groupItemAdapter.clear();
+			groupItemAdapter.notifyDataSetChanged();
+			Elements profileNodes = document.select("result");
+			if (profileNodes.size() > 0) {
+				Elements nodes = profileNodes.select("group");
+				for (Element node : nodes) {
+					String name = node.select("name").first().text();
+					groupItemAdapter.addGroupItem(name);
+					groupItemAdapter.notifyDataSetChanged();
+				}
+			}
+		}
 	}
-    }
 
 }

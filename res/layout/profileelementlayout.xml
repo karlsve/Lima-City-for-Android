@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:orientation="horizontal" android:id="@+id/linearLayoutProfileItem" android:layout_height="wrap_content" android:layout_width="match_parent" xmlns:android="http://schemas.android.com/apk/res/android" android:weightSum="1">
-	<TextView android:layout_height="fill_parent" android:textColor="#000000" android:id="@+id/textViewProfileItemTitle" android:layout_width="fill_parent" android:layout_weight=".5" android:text="" android:background="#ffffff" android:paddingLeft="10dp" android:paddingRight="10dp" android:textSize="20dp" android:textStyle="bold"></TextView>
-	<TextView android:layout_height="fill_parent" android:textColor="#000000" android:id="@+id/textViewProfileItemContent" android:layout_width="fill_parent" android:layout_weight=".5" android:background="#ffffff" android:paddingRight="10dp" android:textSize="20dp"></TextView>
+<LinearLayout android:orientation="horizontal" android:id="@+id/linearLayoutProfileItem" android:layout_height="wrap_content" android:layout_width="match_parent" android:weightSum="1" xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<TextView
+	    android:id="@+id/textViewProfileItemTitle"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight=".6"
+	    android:background="#ffffff"
+	    android:paddingLeft="10dp"
+	    android:paddingRight="10dp"
+	    android:text=""
+	    android:textColor="#000000"
+	    android:textSize="20sp"
+	    android:textStyle="bold" >
+</TextView>
+
+	<TextView
+	    android:id="@+id/textViewProfileItemContent"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:layout_weight=".4"
+	    android:background="#ffffff"
+	    android:paddingRight="10dp"
+	    android:textColor="#000000"
+	    android:textSize="20sp" >
+</TextView>
 </LinearLayout>

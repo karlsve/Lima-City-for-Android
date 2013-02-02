@@ -5,15 +5,13 @@
     android:layout_height="match_parent"
     android:background="#9dc02a"
     android:clipChildren="false"
-    android:orientation="vertical" >
-
-	<LinearLayout android:layout_height="wrap_content" android:background="@drawable/logo" android:layout_width="match_parent"></LinearLayout>
-
-	<ScrollView
+    android:orientation="vertical">
+    
+    <ScrollView
 	    android:id="@+id/scrollViewMainContent"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent" >
-
+
 		<LinearLayout
 		    android:id="@+id/linearLayoutMainPageContent"
 		    android:layout_width="match_parent"

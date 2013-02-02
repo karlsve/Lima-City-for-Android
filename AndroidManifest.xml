@@ -4,34 +4,40 @@
 		android:versionCode="1"
 		android:versionName="1.0"
 		android:installLocation="auto">
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="11" />
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17" />
 	<supports-screens android:anyDensity="true" />
       
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+	<uses-permission android:name="android.permission.USE_CREDENTIALS"/>
+	<uses-permission android:name="limaCity.App.Service"/>
 
-    <application android:icon="@drawable/icon" android:label="@string/name" android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:label="@string/name" android:name="limaCity.base.LoginActivity" android:icon="@drawable/icon" android:noHistory="true">
+    <application android:icon="@drawable/icon" android:label="@string/name" android:theme="@style/Theme.Sherlock" android:allowBackup="true">
+        <activity android:name="limaCity.base.MainActivity">
             <intent-filter>
 	            <action android:name="android.intent.action.MAIN" />
 	            <category android:name="android.intent.category.LAUNCHER" />
 	        </intent-filter>
-        </activity>
-        <activity android:name="limaCity.base.MainActivity" android:label="@string/name"></activity>
-        <activity android:name="limaCity.profile.ProfileActivity" android:label="@string/name"></activity>
-        <activity android:label="@string/name" android:name="limaCity.friends.FriendsActivity"></activity>
-        <activity android:label="@string/name" android:name="limaCity.groups.GroupsActivity"></activity>
-        <activity android:label="@string/name" android:name="limaCity.forum.ForumActivity"></activity>
-        <activity android:label="@string/name" android:name="limaCity.forum.BoardActivity"></activity>
-        <service android:name="limaCity.chat.ChatService"></service>
-        <activity android:label="@string/name" android:name="limaCity.chat.ChatActivity"></activity>
-        <activity android:label="@string/name" android:name="limaCity.chat.UserActivity"></activity>
-        <receiver android:name="limaCity.connection.ConnectionChangeReceiver" android:label="NetworkConnection">
-        	<intent-filter>
-	    		<action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-	  		</intent-filter>
-	  	</receiver>
+	    </activity>
+        <activity android:name="limaCity.accountManager.AuthenticatorActivity" android:noHistory="true"></activity>
+        <activity android:name="limaCity.profile.ProfileActivity"></activity>
+        <activity android:name="limaCity.friends.FriendsActivity"></activity>
+        <activity android:name="limaCity.groups.GroupsActivity"></activity>
+        <activity android:name="limaCity.forum.ForumActivity"></activity>
+        <activity android:name="limaCity.forum.BoardActivity"></activity>
+        <activity android:name="limaCity.chat.ChatActivity"></activity>
+        <activity android:name="limaCity.chat.UserActivity"></activity>
         <activity android:name="limaCity.serverstatus.ServerStatusActivity" android:label="@string/name"></activity>
         <activity android:name="limaCity.forum.ThreadActivity" android:label="@string/name"></activity>
+        <service android:name="limaCity.services.SessionService"></service>
+        <service android:name="limaCity.services.ChatService"></service>
+        <service android:name="limaCity.accountManager.AuthenticationService" android:permission="limaCity.App.Service">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"></action>
+            </intent-filter>
+            <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
+        </service>
     </application>
 </manifest>

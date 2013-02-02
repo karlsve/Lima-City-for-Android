@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayoutAuth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9dc02a"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/editTextAuthUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal"
+        android:hint="@string/username"
+        android:inputType="textNoSuggestions"
+        android:textColorHint="#ffffff"
+        android:textColorLink="#ffffff" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextAuthPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColorHint="#ffffff"
+        android:textColorLink="#ffffff" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/buttonAuthCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:onClick="onCancelClick"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/buttonAuthLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:clickable="false"
+            android:gravity="center_vertical|center_horizontal"
+            android:onClick="onSaveClick"
+            android:text="@string/loginButtonText"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+</LinearLayout>

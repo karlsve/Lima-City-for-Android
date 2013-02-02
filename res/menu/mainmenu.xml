@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/mainmenuinfoitem" android:title="@string/info"></item>
-    <item android:id="@+id/mainmenulogoutitem" android:title="@string/Logout"></item>
+    <item android:id="@+id/mainmenuinfoitem" android:title="@string/info" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/mainmenulogoutitem" android:title="@string/Logout" android:showAsAction="ifRoom"></item>
     
 
 </menu>

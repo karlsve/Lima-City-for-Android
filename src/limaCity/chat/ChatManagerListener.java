@@ -3,11 +3,11 @@ package limaCity.chat;
 import java.util.ArrayList;
 
 public interface ChatManagerListener {
-    public void onConnected();
+	public void onConnected();
 
-    public void onMessageReceived(ChatMessage message);
+	public void onMessageReceived(ChatMessage message);
 
-    public void onSubjectUpdate(String subject);
+	public void onSubjectUpdate(String subject);
 
-    void onUserListChanged(ArrayList<ChatUser> user);
+	void onUserListChanged(ArrayList<ChatUser> user);
 }

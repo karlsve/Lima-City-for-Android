@@ -2,5 +2,7 @@
 <resources>
     <string name="nodeNameLoggedin">loggedin</string>
     <string name="nodeNameSession">session</string>
+    <string name="nodeNameResult">result</string>
+    <string name="nodeNameError">error</string>
     
 </resources>

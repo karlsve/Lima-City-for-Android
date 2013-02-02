@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/menuItemRefresh" android:title="@string/refresh" android:visible="true"></item>
-    <item android:id="@+id/menuItemLogout" android:title="@string/Logout" android:visible="true"></item>
+    <item android:id="@+id/menuItemRefresh" android:title="@string/refresh" android:visible="true" android:showAsAction="ifRoom"></item>
+    <item android:id="@+id/menuItemLogout" android:title="@string/Logout" android:visible="true" android:showAsAction="ifRoom"></item>
     
 
 </menu>

@@ -13,54 +13,54 @@ import android.widget.TextView;
 
 public class GroupItemAdapter extends BaseAdapter {
 
-    ArrayList<String> groupItems = new ArrayList<String>();
-    Context mContext = null;
+	ArrayList<String> groupItems = new ArrayList<String>();
+	Context mContext = null;
 
-    public GroupItemAdapter(Context context) {
-	mContext = context;
-    }
-
-    @Override
-    public int getCount() {
-	return groupItems.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-	return groupItems.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-	return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-	LinearLayout friendListItem;
-
-	if (convertView == null) {
-	    friendListItem = (LinearLayout) LayoutInflater.from(mContext)
-		    .inflate(R.layout.groupelementlayout, parent, false);
-	} else {
-	    friendListItem = (LinearLayout) convertView;
+	public GroupItemAdapter(Context context) {
+		mContext = context;
 	}
 
-	TextView name = (TextView) friendListItem
-		.findViewById(R.id.textViewGroupName);
+	@Override
+	public int getCount() {
+		return groupItems.size();
+	}
 
-	String content = groupItems.get(position);
-	name.setText(content);
+	@Override
+	public Object getItem(int position) {
+		return groupItems.get(position);
+	}
 
-	return friendListItem;
-    }
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
-    public void addGroupItem(String name) {
-	groupItems.add(name);
-    }
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		LinearLayout friendListItem;
 
-    public void clear() {
-	groupItems.clear();
-    }
+		if (convertView == null) {
+			friendListItem = (LinearLayout) LayoutInflater.from(mContext)
+					.inflate(R.layout.groupelementlayout, parent, false);
+		} else {
+			friendListItem = (LinearLayout) convertView;
+		}
+
+		TextView name = (TextView) friendListItem
+				.findViewById(R.id.textViewGroupName);
+
+		String content = groupItems.get(position);
+		name.setText(content);
+
+		return friendListItem;
+	}
+
+	public void addGroupItem(String name) {
+		groupItems.add(name);
+	}
+
+	public void clear() {
+		groupItems.clear();
+	}
 
 }

@@ -6,16 +6,20 @@ import android.content.Intent;
 
 public class ConnectionChangeReceiver extends BroadcastReceiver {
 
-    ConnectionChangeListener listener = null;
+	ConnectionChangeListener listener = null;
 
-    public ConnectionChangeReceiver(ConnectionChangeListener listener) {
-	this.listener = listener;
-    }
+	public ConnectionChangeReceiver() {
+	}
+	
+	public void setListener(ConnectionChangeListener listener)
+	{
+		this.listener = listener;
+	}
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-	if (listener != null)
-	    listener.onConnectionTypeChanged();
-    }
+	@Override
+	public void onReceive(Context context, Intent intent) {
+		if (listener != null)
+			listener.onConnectionTypeChanged();
+	}
 
 }

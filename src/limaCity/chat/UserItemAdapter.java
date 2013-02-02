@@ -14,56 +14,56 @@ import android.widget.TextView;
 
 public class UserItemAdapter extends BaseAdapter {
 
-    private ArrayList<ChatUser> userItems = new ArrayList<ChatUser>();
-    Context context;
+	private ArrayList<ChatUser> userItems = new ArrayList<ChatUser>();
+	Context context;
 
-    public UserItemAdapter(Context context) {
-	this.context = context;
-    }
-
-    @Override
-    public int getCount() {
-	return userItems.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-	return userItems.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-	return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-	LinearLayout userListViewItem;
-
-	if (convertView == null) {
-	    userListViewItem = (LinearLayout) LayoutInflater.from(context)
-		    .inflate(R.layout.chatuserelementlayout, parent, false);
-	} else {
-	    userListViewItem = (LinearLayout) convertView;
+	public UserItemAdapter(Context context) {
+		this.context = context;
 	}
 
-	ChatUser current = userItems.get(position);
-	TextView name = (TextView) userListViewItem
-		.findViewById(R.id.textViewUserListItemName);
+	@Override
+	public int getCount() {
+		return userItems.size();
+	}
 
-	name.setText(current.getJid());
+	@Override
+	public Object getItem(int position) {
+		return userItems.get(position);
+	}
 
-	return userListViewItem;
-    }
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
-    public void addUser(ChatUser user) {
-	userItems.add(user);
-    }
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		LinearLayout userListViewItem;
 
-    public void setUser(ArrayList<ChatUser> user) {
-	userItems.clear();
-	userItems = user;
-	this.notifyDataSetChanged();
-    }
+		if (convertView == null) {
+			userListViewItem = (LinearLayout) LayoutInflater.from(context)
+					.inflate(R.layout.chatuserelementlayout, parent, false);
+		} else {
+			userListViewItem = (LinearLayout) convertView;
+		}
+
+		ChatUser current = userItems.get(position);
+		TextView name = (TextView) userListViewItem
+				.findViewById(R.id.textViewUserListItemName);
+
+		name.setText(current.getJid());
+
+		return userListViewItem;
+	}
+
+	public void addUser(ChatUser user) {
+		userItems.add(user);
+	}
+
+	public void setUser(ArrayList<ChatUser> user) {
+		userItems.clear();
+		userItems = user;
+		this.notifyDataSetChanged();
+	}
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="limaServerUrl">http://limaapi.dauerstoned-clan.de/php/</string>
+    <string name="limaServerUrl">http://limaapi.dauerstoned-clan.de/rpc/xmlrpc.php</string>
     <string name="limaChatUrl">jabber.lima-city.de</string>
     
 </resources>

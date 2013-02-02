@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:id="@+id/loginView" android:layout_height="match_parent" android:background="#9dc02a" android:orientation="vertical" android:layout_width="match_parent">
-	<LinearLayout android:id="@+id/loginLogo" android:layout_height="wrap_content" android:background="@drawable/logo" android:layout_width="match_parent"></LinearLayout>
-	<EditText android:layout_height="wrap_content" android:id="@+id/getUsername" android:lines="1" android:layout_width="match_parent" android:hint="@string/username" android:inputType="textNoSuggestions"></EditText>
-	<EditText android:layout_height="wrap_content" android:id="@+id/getPassword" android:lines="1" android:layout_width="match_parent" android:inputType="textPassword" android:hint="@string/password"></EditText>
-	<Button android:layout_height="wrap_content" android:id="@+id/loginButton" android:layout_width="match_parent" android:clickable="true" android:text="@string/loginButtonText"></Button>
-</LinearLayout>

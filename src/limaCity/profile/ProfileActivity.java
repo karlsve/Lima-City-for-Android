@@ -2,92 +2,67 @@ package limaCity.profile;
 
 import limaCity.App.R;
 import limaCity.base.BasicActivity;
-import limaCity.tools.ServerHandling;
-import limaCity.tools.XmlWorker;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class ProfileActivity extends BasicActivity {
-    
-    protected ProfileItemAdapter profileItemAdapter = null;
-    protected String profileOwner = "";
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-	setContentView(R.layout.profilelayout);
-	super.onCreate(savedInstanceState);
-    }
+	protected ProfileItemAdapter profileItemAdapter = null;
+	protected String profileOwner = "";
 
-    @Override
-    protected void initVariables() {
-	super.initVariables();
-	Bundle extras = getIntent().getExtras();
-	if (extras != null) {
-	    profileOwner = extras.getString("profile");
-	}
-    }
-
-    @Override
-    protected void initData() {
-	TextView username = (TextView) findViewById(R.id.textViewProfilePageName);
-	username.setText(profileOwner);
-	ListView profilePage = (ListView) findViewById(R.id.ProfilePageContent);
-	profileItemAdapter = new ProfileItemAdapter(this);
-	profilePage.setAdapter(profileItemAdapter);
-	super.initData();
-    }
-
-    @Override
-    protected void getData() {
-	new AboutTask(this).execute("sid", session, "user", profileOwner, "action", "profile");
-    }
-
-    private class AboutTask extends AsyncTask<String, Void, Document> {
-
-	Context context = null;
-
-	public AboutTask(Context context) {
-	    this.context = context;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.profilelayout);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
-	protected Document doInBackground(String... data) {
-	    Document documentContent = null;
-	    documentContent = ServerHandling.postFromServer(
-		    context.getString(R.string.limaServerUrl), data);
-	    return documentContent;
+	protected void initData() {
+		super.initData();
+		profileOwner = this.getIntent().getStringExtra("profile");
+		TextView username = (TextView) findViewById(R.id.textViewProfilePageName);
+		username.setText(profileOwner);
+		ListView profilePage = (ListView) findViewById(R.id.ProfilePageContent);
+		profileItemAdapter = new ProfileItemAdapter(this);
+		profilePage.setAdapter(profileItemAdapter);
 	}
-
+	
 	@Override
-	protected void onPostExecute(Document result) {
-	    if (result != null) {
-		profileItemAdapter.clear();
-		profileItemAdapter.notifyDataSetChanged();
-		Elements profileNodes = result.select("profile");
-		if (profileNodes.size() > 0) {
-		    Elements nodes = profileNodes.first().children();
-		    for (Element node : nodes) {
-			String name = XmlWorker
-				.prepareNodeName(node.nodeName());
-			String content = XmlWorker.htmlToText(node.text());
-			profileItemAdapter.addProfileItem(name, content);
+	protected void getData()
+	{
+		new Thread()
+		{
+			@Override
+			public void run() {
+				sessionService.getProfile(profileOwner);
+			}
+		}.start();
+	}
+	
+	@Override
+	protected void onDataReceived(Document document) {
+		if (document != null) {
+			profileItemAdapter.clear();
 			profileItemAdapter.notifyDataSetChanged();
-		    }
+			Elements profileNodes = document.select("result");
+			if (profileNodes.size() > 0) {
+				Elements nodes = profileNodes.select("element");
+				for (Element node : nodes) {
+					if(node.attr("type").equals("text"))
+					{
+						String name = node.select("name").first().text();
+						String content = node.select("content").first().text();
+						profileItemAdapter.addProfileItem(name, content);
+						profileItemAdapter.notifyDataSetChanged();
+					}
+				}
+			}
 		}
-	    }
 	}
-
-	@Override
-	protected void onPreExecute() {
-
-	}
-    }
 }
