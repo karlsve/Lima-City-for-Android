@@ -5,7 +5,6 @@ import java.util.Hashtable;
 import java.util.LinkedHashMap;
 
 import limaCity.App.R;
-import limaCity.tools.XmlWorker;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -52,9 +51,8 @@ public class ForumItemAdapter extends BaseAdapter {
 			forumListItem = (LinearLayout) convertView;
 
 		String url = forumItemNames.get(position);
-		String nametext = XmlWorker.htmlToText(forumItems.get(url).getName());
-		String descriptiontext = XmlWorker.htmlToText(forumItems.get(url)
-				.getDescription());
+		String nametext = forumItems.get(url).getName();
+		String descriptiontext = forumItems.get(url).getDescription();
 		String moderatorstext = forumItems.get(url).getModerators();
 
 		TextView name = (TextView) forumListItem

@@ -3,7 +3,6 @@ package limaCity.forum;
 import java.util.ArrayList;
 
 import limaCity.App.R;
-import limaCity.tools.XmlWorker;
 import android.content.Context;
 import android.graphics.Paint;
 import android.util.Log;
@@ -43,7 +42,7 @@ public class ThreadItemAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		PostItem item = postItems.get(position);
-		String type = XmlWorker.htmlToText(item.getPostType());
+		String type = item.getPostType();
 		boolean postdeleted = type == "deleted";
 
 		LinearLayout threadListItem;
@@ -60,9 +59,9 @@ public class ThreadItemAdapter extends BaseAdapter {
 		}
 
 		boolean userdeleted = item.isUserDeleted();
-		String usernametext = XmlWorker.htmlToText(item.getUserName());
-		String creationtimetext = XmlWorker.htmlToText(item.getCreationTime());
-		String contenttext = XmlWorker.htmlToText(item.getContent());
+		String usernametext =item.getUserName();
+		String creationtimetext = item.getCreationTime();
+		String contenttext = item.getContent();
 		int postid = item.getPostId();
 
 		TextView content = (TextView) threadListItem

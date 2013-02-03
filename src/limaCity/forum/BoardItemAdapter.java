@@ -3,7 +3,6 @@ package limaCity.forum;
 import java.util.ArrayList;
 
 import limaCity.App.R;
-import limaCity.tools.XmlWorker;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -51,7 +50,7 @@ public class BoardItemAdapter extends BaseAdapter {
 		}
 
 		BoardItem item = threadItems.get(position);
-		String titletext = XmlWorker.htmlToText(item.getName());
+		String titletext = item.getName();
 		String authortext = item.getAuthor();
 		String datetext = item.getDate();
 		String url = item.getUrl();

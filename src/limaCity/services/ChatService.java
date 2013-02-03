@@ -6,10 +6,12 @@ import java.util.Iterator;
 import limaCity.App.R;
 import limaCity.base.BasicData;
 import limaCity.chat.ChatActivity;
+import limaCity.chat.ChatBroadcastReceiver;
 import limaCity.chat.ChatMessage;
 import limaCity.chat.ChatUser;
 
 import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.SmackAndroid;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Message;
@@ -58,12 +60,29 @@ public class ChatService extends Service {
 	
 	@Override
 	public void onCreate() {
-		this.nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+		this.nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);	
+		SmackAndroid.init(this);
+		ChatBroadcastReceiver.initNetworkStatus(this.getApplicationContext());
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Log.d("ChatService", "Started with start id "+startId+": "+intent);
+		if(intent != null) {
+			boolean disconnect = intent.getBooleanExtra("disconnect", false);
+			boolean reconnect = intent.getBooleanExtra("reconnect", false);
+			boolean connect = intent.getBooleanExtra("connect", false);
+			if(disconnect) {
+				disconnect();
+			}
+			if(reconnect) {
+				org.xbill.DNS.Lookup.refreshDefault();
+				disconnect();
+				connect();
+			}
+			if(connect) {
+				connect();
+			}
+		}
 		return START_STICKY;
 	}
 
@@ -86,6 +105,15 @@ public class ChatService extends Service {
 				connect();
 			}
 		}.start();
+	}
+	
+	private void disconnect() {
+		if(connection != null) {
+			connection = null;
+		}
+		if(muc != null) {
+			muc = null;
+		}
 	}
 	
 	private void connect() {

@@ -3,7 +3,6 @@ package limaCity.serverstatus;
 import java.util.Hashtable;
 
 import limaCity.App.R;
-import limaCity.tools.XmlWorker;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +53,7 @@ public class ServerStatusItemAdapter extends BaseAdapter {
 		Object[] keys = serverStatusItems.keySet().toArray();
 		if (keys[position] instanceof String) {
 			String key = (String) keys[position];
-			String keyprepared = XmlWorker.firstCharToUpperCase(key);
+			String keyprepared = key;
 			title.setText(keyprepared);
 			String value = serverStatusItems.get(key);
 			content.setText(value);

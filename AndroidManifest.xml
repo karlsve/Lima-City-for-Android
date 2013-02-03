@@ -39,5 +39,6 @@
             </intent-filter>
             <meta-data android:name="android.accounts.AccountAuthenticator" android:resource="@xml/authenticator"/>
         </service>
+        <receiver android:name="limaCity.chat.ChatBroadcastReceiver"></receiver>
     </application>
 </manifest>
