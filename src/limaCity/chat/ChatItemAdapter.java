@@ -65,5 +65,9 @@ public class ChatItemAdapter extends BaseAdapter {
 	public void setChatItems(ArrayList<ChatMessage> history) {
 		chatItems.addAll(history);
 	}
+	
+	public void clearChatItems() {
+		chatItems.clear();
+	}
 
 }

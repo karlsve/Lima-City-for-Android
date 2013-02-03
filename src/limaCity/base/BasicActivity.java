@@ -106,6 +106,19 @@ public class BasicActivity extends SherlockActivity {
 			
 			});
 		}
+
+		@Override
+		public void onDisconnect() {
+			Handler handler = new Handler(Looper.getMainLooper());
+			handler.post(new Runnable(){
+
+				@Override
+				public void run() {
+					onChatDisconnected();
+				}
+			
+			});
+		}
 	};
 	
 	protected SessionService sessionService = null;
@@ -282,5 +295,9 @@ public class BasicActivity extends SherlockActivity {
 	}
 
 	protected void onDataUserlistChanged() {
+	}
+	
+	protected void onChatDisconnected() {
+		
 	}
 }

@@ -30,7 +30,6 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 public class ChatService extends Service {
 
@@ -41,6 +40,7 @@ public class ChatService extends Service {
 		public void onSubjectChanged(String subject, String from);
 		public void onMessageReceived(ChatMessage chatMessage);
 		public void onUserlistChanged();
+		public void onDisconnect();
 	}
 	
 	public class ChatBinder extends Binder {
@@ -50,6 +50,39 @@ public class ChatService extends Service {
 	}
 	
 	private final IBinder binder = new ChatBinder();
+	
+	private PacketListener messageListener = new PacketListener() {
+
+		@Override
+		public void processPacket(Packet packet) {
+			onMessageReceived(packet);
+		}
+		
+	};
+	
+	private PacketListener occupantListener = new PacketListener() {
+
+		@Override
+		public void processPacket(Packet packet) {
+			getOccupants();
+		}
+
+	};
+	
+	private SubjectUpdatedListener subjectListener = new SubjectUpdatedListener() {
+
+		@Override
+		public void subjectUpdated(String subject, String from) {
+			sendSubjectToListener(subject, from);
+		}
+		
+	};
+	
+	private Thread thread = null;
+	
+	private boolean connected = false;
+	private boolean disconnect = false;
+	private boolean connect = true;
 	
 	private XMPPConnection connection = null;
 	private MultiUserChat muc = null;
@@ -68,26 +101,16 @@ public class ChatService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		if(intent != null) {
-			boolean disconnect = intent.getBooleanExtra("disconnect", false);
-			boolean reconnect = intent.getBooleanExtra("reconnect", false);
-			boolean connect = intent.getBooleanExtra("connect", false);
-			if(disconnect) {
-				disconnect();
-			}
-			if(reconnect) {
-				org.xbill.DNS.Lookup.refreshDefault();
-				disconnect();
-				connect();
-			}
-			if(connect) {
-				connect();
-			}
+			disconnect = intent.getBooleanExtra("disconnect", false);
+			connect = !disconnect;
+			connectThread();
 		}
 		return START_STICKY;
 	}
 
 	@Override
 	public void onDestroy() {
+		thread.interrupt();
 	}
 
 	@Override
@@ -97,28 +120,74 @@ public class ChatService extends Service {
 	}
 	
 	private void connectThread() {
-		new Thread()
+		if(thread == null)
 		{
-			@Override
-			public void run()
-			{
-				connect();
-			}
-		}.start();
+			thread = new Thread()
+				{
+					@Override
+					public void run()
+					{
+						try {
+							Thread.currentThread();
+							while(!Thread.interrupted())
+							{
+								if(!connected && connect)
+									connect();
+								if(connected && disconnect)
+									quickDisconnect();
+
+								if(connection == null && muc == null)
+									connected = false;
+								else if(connection.isConnected() && connection.isAuthenticated() && muc.isJoined())
+									connected = true;
+								else
+									connected = false;
+								Thread.sleep(5000);
+							}
+						} catch (InterruptedException e) {
+							disconnect();
+						}
+					}
+				};
+				thread.start();
+		}
 	}
 	
-	private void disconnect() {
-		if(connection != null) {
-			connection = null;
+	protected void disconnect() {
+		chatHistory.clear();
+		chatUser.clear();
+		if(connection != null)
+		{
+			if(connection.isConnected() && connection.isAuthenticated() && muc != null)
+			{
+				muc.leave();
+			}
+			if(connection.isConnected())
+			{
+				connection.disconnect();
+			}
 		}
-		if(muc != null) {
-			muc = null;
-		}
+		muc = null;
+		connection = null;
+		disconnect = false;
+		connected = false;
+		sendOnDisconnectToListener();
+	}
+
+	private void quickDisconnect() {
+		chatHistory.clear();
+		chatUser.clear();
+		muc = null;
+		connection = null;
+		disconnect = false;
+		connected = false;
+		sendOnDisconnectToListener();
 	}
 	
 	private void connect() {
 		if(getAuthExists())
 		{
+			org.xbill.DNS.Lookup.refreshDefault();
 			if(connection == null)
 			{
 				String url = this.getString(R.string.limaChatUrl);
@@ -168,40 +237,28 @@ public class ChatService extends Service {
 	}
 
 	private void setMucListener() {
-		muc.addMessageListener(new PacketListener() {
-
-			@Override
-			public void processPacket(Packet packet) {
-				onMessageReceived(packet);
-			}
-			
-		});
+		muc.addMessageListener(messageListener);
 		
-		muc.addParticipantListener(new PacketListener() {
-
-			@Override
-			public void processPacket(Packet packet) {
-				getOccupants();
-			}
-
-		});
+		muc.addParticipantListener(occupantListener);
 		
-		muc.addSubjectUpdatedListener(new SubjectUpdatedListener() {
-
-			@Override
-			public void subjectUpdated(String subject, String from) {
-				sendSubjectToListener(subject, from);
-			}
-			
-		});
+		muc.addSubjectUpdatedListener(subjectListener);
 	}
 
 	protected void onMessageReceived(Packet packet) {
-		Log.d("LimaCityChat", "Message received");
 		Message message = (Message) packet;
 		if(message.getFrom().matches(".+/{1}.+"))
 		{
 			String nick = message.getFrom().replaceAll(".*/", "");
+			ChatMessage chatmessage = new ChatMessage(message.getBody(), nick);
+			chatHistory.add(chatmessage);
+			
+			updateServiceNotification(nick, message.getBody());
+			
+			sendMessageToListener(chatmessage);
+		}
+		else
+		{
+			String nick = "";
 			ChatMessage chatmessage = new ChatMessage(message.getBody(), nick);
 			chatHistory.add(chatmessage);
 			
@@ -297,9 +354,23 @@ public class ChatService extends Service {
 				listener.onSubjectChanged(subject, from);
 		}
 	}
+
+	private void sendOnDisconnectToListener() {
+		for(ChatListener listener : chatListener)
+		{
+			if(listener != null) {
+				listener.onDisconnect();
+				listener.onSubjectChanged("Not connected.", "");
+			}
+		}
+	}
 	
 	public void addListener(ChatListener listener) {
 		chatListener.add(listener);
+		if(muc != null)
+			listener.onSubjectChanged(muc.getSubject(), "");
+		else
+			listener.onSubjectChanged("Not connected", "");
 	}
 
 	public void sendMessage(String string) {

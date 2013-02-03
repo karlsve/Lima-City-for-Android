@@ -35,11 +35,6 @@ public class ChatActivity extends BasicActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chatlayout);
 	}
-	
-	protected void subjectChanged(String subject, String from) {
-		TextView subjectview = (TextView) findViewById(R.id.textViewChatSubject);
-		subjectview.setText(subject);
-	}
 
 	@Override
 	protected void initChatData() {
@@ -96,6 +91,23 @@ public class ChatActivity extends BasicActivity {
 			chatItemAdapter.add(message);
 			chatItemAdapter.notifyDataSetChanged();
 			chatList.smoothScrollToPosition(chatItemAdapter.getCount() - 1);
+		}
+	}
+	
+	@Override
+	protected void onDataReceived(String subject, String from)
+	{
+		TextView subjectview = (TextView) findViewById(R.id.textViewChatSubject);
+		subjectview.setText(subject);
+	}
+	
+	@Override
+	protected void onChatDisconnected()
+	{
+		if(chatItemAdapter != null)
+		{
+			chatItemAdapter.clearChatItems();
+			chatItemAdapter.notifyDataSetChanged();
 		}
 	}
 

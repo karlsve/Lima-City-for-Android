@@ -38,10 +38,9 @@ public class ChatBroadcastReceiver extends BroadcastReceiver {
 				chatServiceIntent.putExtra("disconnect", true);
 				context.startService(chatServiceIntent);
 			}
-			if((info != null) && (info.isConnected() == true) && (info.getType() != networkType)) {
+			if((info != null) && (info.isConnected() == true)) {
 				networkType = info.getType();
 				Intent chatServiceIntent = new Intent(context, ChatService.class);
-				chatServiceIntent.putExtra("reconnect", true);
 				context.startService(chatServiceIntent);
 			}
 		}
