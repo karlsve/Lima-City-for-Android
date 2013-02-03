@@ -204,11 +204,11 @@ public class BasicActivity extends SherlockActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		checkAccount();
 		doBindService();
 	}
 
 	protected void initData() {
-		checkAccount();
 		sessionService.setListener(sessionListener);
 		sessionService.getUsername();
 	}
@@ -220,6 +220,7 @@ public class BasicActivity extends SherlockActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		checkAccount();
 		doBindService();
 	}
 	

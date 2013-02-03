@@ -246,9 +246,10 @@ public class ChatService extends Service {
 
 	protected void onMessageReceived(Packet packet) {
 		Message message = (Message) packet;
+		String nick = "";
 		if(message.getFrom().matches(".+/{1}.+"))
 		{
-			String nick = message.getFrom().replaceAll(".*/", "");
+			nick = message.getFrom().replaceAll(".*/", "");
 			ChatMessage chatmessage = new ChatMessage(message.getBody(), nick);
 			chatHistory.add(chatmessage);
 			
@@ -258,14 +259,12 @@ public class ChatService extends Service {
 		}
 		else
 		{
-			String nick = "";
 			ChatMessage chatmessage = new ChatMessage(message.getBody(), nick);
 			chatHistory.add(chatmessage);
 			
-			updateServiceNotification(nick, message.getBody());
-			
 			sendMessageToListener(chatmessage);
 		}
+		updateServiceNotification(nick, message.getBody());
 	}
 	
 	private void updateServiceNotification(String title, String content)
@@ -276,17 +275,18 @@ public class ChatService extends Service {
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 		builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 		builder.setContentText(content);
+		builder.setAutoCancel(true);
 		builder.setContentTitle(title);
+		builder.setSmallIcon(R.drawable.icon);
 		nm.notify(0, builder.build());
 	}
 
 	private void getOccupants() {
 		chatUser.clear();
 		Iterator<String> occupants = muc.getOccupants();
-		for(String occupant = ""; occupants.hasNext(); occupant = occupants.next())
+		while(occupants.hasNext())
 		{
-			if(!occupant.equals(""))
-				chatUser.add(getUser(occupant));
+			chatUser.add(getUser(occupants.next()));
 		}
 		sendUserToListener();
 	}
@@ -380,7 +380,6 @@ public class ChatService extends Service {
 		if(muc != null)
 		{
 			listener.onSubjectChanged(muc.getSubject(), "");
-			getOccupants();
 		}
 		else
 		{
@@ -394,5 +393,9 @@ public class ChatService extends Service {
 		} catch(Exception e) {
 			onError("Unable to send the Message");
 		}
+	}
+
+	public void getUserlist(ChatListener chatListener2) {
+		getOccupants();
 	}
 }

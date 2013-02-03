@@ -144,6 +144,7 @@ public class ChatActivity extends BasicActivity {
 			}
 		});
 		chatService.getHistory(chatListener);
+		chatService.getUserlist(chatListener);
 	}
 
 	protected void sendMessage(String string) {
