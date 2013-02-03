@@ -1,8 +1,11 @@
 package limaCity.base;
 
+import java.util.ArrayList;
+
 import limaCity.App.R;
 import limaCity.accountManager.AuthenticatorActivity;
 import limaCity.chat.ChatMessage;
+import limaCity.chat.ChatUser;
 import limaCity.services.ChatService;
 import limaCity.services.ChatService.ChatListener;
 import limaCity.services.SessionService;
@@ -95,13 +98,13 @@ public class BasicActivity extends SherlockActivity {
 		}
 
 		@Override
-		public void onUserlistChanged() {
+		public void onUserlistChanged(final ArrayList<ChatUser> chatUser) {
 			Handler handler = new Handler(Looper.getMainLooper());
 			handler.post(new Runnable(){
 
 				@Override
 				public void run() {
-					onDataUserlistChanged();
+					onDataUserlistChanged(chatUser);
 				}
 			
 			});
@@ -294,7 +297,7 @@ public class BasicActivity extends SherlockActivity {
 		
 	}
 
-	protected void onDataUserlistChanged() {
+	protected void onDataUserlistChanged(ArrayList<ChatUser> chatUser) {
 	}
 	
 	protected void onChatDisconnected() {

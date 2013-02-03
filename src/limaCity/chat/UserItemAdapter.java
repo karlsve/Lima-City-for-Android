@@ -51,7 +51,7 @@ public class UserItemAdapter extends BaseAdapter {
 		TextView name = (TextView) userListViewItem
 				.findViewById(R.id.textViewUserListItemName);
 
-		name.setText(current.getJid());
+		name.setText(current.getNick());
 
 		return userListViewItem;
 	}

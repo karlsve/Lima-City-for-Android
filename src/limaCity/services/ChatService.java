@@ -39,7 +39,7 @@ public class ChatService extends Service {
 		public void onError(String errorMessage);
 		public void onSubjectChanged(String subject, String from);
 		public void onMessageReceived(ChatMessage chatMessage);
-		public void onUserlistChanged();
+		public void onUserlistChanged(ArrayList<ChatUser> chatUser);
 		public void onDisconnect();
 	}
 	
@@ -288,11 +288,21 @@ public class ChatService extends Service {
 			if(!occupant.equals(""))
 				chatUser.add(getUser(occupant));
 		}
+		sendUserToListener();
+	}
+
+	private void sendUserToListener() {
+		for(ChatListener listener : chatListener)
+		{
+			if(listener != null)
+				listener.onUserlistChanged(chatUser);
+		}
 	}
 
 	private ChatUser getUser(String nick) {
 		Occupant current = muc.getOccupant(nick);
-		ChatUser chatUser = new ChatUser(current.getNick(), nick,
+		String name = current.getNick().replaceAll(".*/", "");
+		ChatUser chatUser = new ChatUser(name, nick,
 		current.getRole());
 		return chatUser;
 	}
@@ -368,9 +378,14 @@ public class ChatService extends Service {
 	public void addListener(ChatListener listener) {
 		chatListener.add(listener);
 		if(muc != null)
+		{
 			listener.onSubjectChanged(muc.getSubject(), "");
+			getOccupants();
+		}
 		else
+		{
 			listener.onSubjectChanged("Not connected", "");
+		}
 	}
 
 	public void sendMessage(String string) {
