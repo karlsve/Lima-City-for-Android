@@ -2,7 +2,6 @@ package limaCity.base;
 
 import limaCity.App.R;
 import limaCity.chat.ChatActivity;
-import limaCity.forum.ForumActivity;
 import limaCity.friends.FriendsActivity;
 import limaCity.groups.GroupsActivity;
 import limaCity.profile.ProfileActivity;
@@ -22,8 +21,8 @@ public class MainActivity extends BasicActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.mainlayout);
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.mainlayout);
 	}
 	
 	@Override
@@ -35,7 +34,7 @@ public class MainActivity extends BasicActivity {
 		initGroupsActivity();
 		initForumActivity();
 		initServerStatusActivity();
-		 initChatActivity();
+		initChatActivity();
 	}
 
 	private void initChatActivity() {
@@ -52,7 +51,6 @@ public class MainActivity extends BasicActivity {
 
 	protected void startChatActivity() {
 		Intent intent = new Intent(this, ChatActivity.class);
-		intent.putExtra("user", user);
 		startActivity(intent);
 	}
 
@@ -69,9 +67,6 @@ public class MainActivity extends BasicActivity {
 	}
 
 	protected void startForumActivity() {
-		Intent intent = new Intent(this, ForumActivity.class);
-		intent.putExtra("user", user);
-		startActivity(intent);
 	}
 
 	private void initGroupsActivity() {

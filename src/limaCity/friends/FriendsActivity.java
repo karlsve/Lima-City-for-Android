@@ -12,19 +12,20 @@ import android.widget.ListView;
 
 public class FriendsActivity extends BasicActivity {
 	FriendItemAdapter friendItemAdapter = null;
+	
 	String profileOwner = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.friendslayout);
 		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.friendslayout);
 	}
 
 	@Override
 	protected void initData() {
 		super.initData();
-		profileOwner = this.getIntent().getStringExtra("profile");
-		ListView friendPage = (ListView) findViewById(R.id.FriendsPageContent);
+		profileOwner = this.getIntent().getExtras().getString("profile");
+		ListView friendPage = (ListView) this.findViewById(R.id.FriendsPageContent);
 		friendItemAdapter = new FriendItemAdapter(this);
 		friendPage.setAdapter(friendItemAdapter);
 	}
@@ -35,7 +36,7 @@ public class FriendsActivity extends BasicActivity {
 		{
 			@Override
 			public void run() {
-				sessionService.getFriends(profileOwner);
+				sessionService.getFriends(user);
 			}
 		}.start();
 	}

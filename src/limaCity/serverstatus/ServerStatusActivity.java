@@ -16,8 +16,8 @@ public class ServerStatusActivity extends BasicActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.serverstatuslayout);
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.serverstatuslayout);
 	}
 
 	@Override

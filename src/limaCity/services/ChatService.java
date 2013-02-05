@@ -93,7 +93,14 @@ public class ChatService extends Service {
 	
 	@Override
 	public void onCreate() {
-		this.nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);	
+		Intent notificationIntent = new Intent(this, ChatActivity.class);
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+		builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+		builder.setContentTitle(this.getString(R.string.chatTitle));
+		this.startForeground(0, builder.build());
+		this.nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		SmackAndroid.init(this);
 		ChatBroadcastReceiver.initNetworkStatus(this.getApplicationContext());
 	}
@@ -246,49 +253,60 @@ public class ChatService extends Service {
 
 	protected void onMessageReceived(Packet packet) {
 		Message message = (Message) packet;
-		String nick = "";
+		String content = "";
+		ChatMessage chatmessage;
 		if(message.getFrom().matches(".+/{1}.+"))
 		{
-			nick = message.getFrom().replaceAll(".*/", "");
-			ChatMessage chatmessage = new ChatMessage(message.getBody(), nick);
+			String nick = message.getFrom().replaceAll(".*/", "");
+			chatmessage = new ChatMessage(message.getBody(), nick);
 			chatHistory.add(chatmessage);
-			
-			updateServiceNotification(nick, message.getBody());
-			
-			sendMessageToListener(chatmessage);
+			content = nick+": "+message.getBody();
 		}
 		else
 		{
-			ChatMessage chatmessage = new ChatMessage(message.getBody(), nick);
+			chatmessage = new ChatMessage(message.getBody(), "");
 			chatHistory.add(chatmessage);
-			
-			sendMessageToListener(chatmessage);
+			content = message.getBody();
 		}
-		updateServiceNotification(nick, message.getBody());
+		
+		sendMessageToListener(chatmessage);
+		updateServiceNotification(content);
 	}
 	
-	private void updateServiceNotification(String title, String content)
+	private void updateServiceNotification(String content)
 	{
-		Intent notificationIntent = new Intent(this, ChatActivity.class);
-		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-		builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-		builder.setContentText(content);
-		builder.setAutoCancel(true);
-		builder.setContentTitle(title);
-		builder.setSmallIcon(R.drawable.icon);
-		nm.notify(0, builder.build());
+		boolean activeListener = false;
+		for(ChatListener listener : chatListener)
+		{
+			if(listener != null)
+				activeListener = true;
+		}
+		if(!activeListener)
+		{
+			Intent notificationIntent = new Intent(this, ChatActivity.class);
+			notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			
+			NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+			builder.setContentIntent(PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+			builder.setContentText(content);
+			builder.setAutoCancel(true);
+			builder.setContentTitle(this.getString(R.string.chatTitle));
+			builder.setSmallIcon(R.drawable.icon);
+			nm.notify(0, builder.build());
+		}
 	}
 
 	private void getOccupants() {
 		chatUser.clear();
-		Iterator<String> occupants = muc.getOccupants();
-		while(occupants.hasNext())
+		if(muc != null)
 		{
-			chatUser.add(getUser(occupants.next()));
+			Iterator<String> occupants = muc.getOccupants();
+			while(occupants.hasNext())
+			{
+				chatUser.add(getUser(occupants.next()));
+			}
+			sendUserToListener();
 		}
-		sendUserToListener();
 	}
 
 	private void sendUserToListener() {
@@ -375,6 +393,18 @@ public class ChatService extends Service {
 		}
 	}
 	
+	public void sendMessage(String string) {
+		try {
+			muc.sendMessage(string);
+		} catch(Exception e) {
+			onError("Unable to send the Message");
+		}
+	}
+
+	public void getUserlist(ChatListener chatListener2) {
+		getOccupants();
+	}
+	
 	public void addListener(ChatListener listener) {
 		chatListener.add(listener);
 		if(muc != null)
@@ -387,15 +417,8 @@ public class ChatService extends Service {
 		}
 	}
 
-	public void sendMessage(String string) {
-		try {
-			muc.sendMessage(string);
-		} catch(Exception e) {
-			onError("Unable to send the Message");
-		}
-	}
-
-	public void getUserlist(ChatListener chatListener2) {
-		getOccupants();
+	public void removeListener(ChatListener listener) {
+		chatListener.remove(listener);
+		
 	}
 }

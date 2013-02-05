@@ -18,17 +18,17 @@ public class ProfileActivity extends BasicActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.profilelayout);
 		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.profilelayout);
 	}
 
 	@Override
 	protected void initData() {
 		super.initData();
-		profileOwner = this.getIntent().getStringExtra("profile");
-		TextView username = (TextView) findViewById(R.id.textViewProfilePageName);
+		profileOwner = this.getIntent().getExtras().getString("profile");
+		TextView username = (TextView) this.findViewById(R.id.textViewProfilePageName);
 		username.setText(profileOwner);
-		ListView profilePage = (ListView) findViewById(R.id.ProfilePageContent);
+		ListView profilePage = (ListView) this.findViewById(R.id.ProfilePageContent);
 		profileItemAdapter = new ProfileItemAdapter(this);
 		profilePage.setAdapter(profileItemAdapter);
 	}

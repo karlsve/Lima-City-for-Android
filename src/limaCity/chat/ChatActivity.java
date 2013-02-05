@@ -68,14 +68,14 @@ public class ChatActivity extends BasicActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.chatlayout);
+		this.setContentView(R.layout.chatlayout);
 		initAnimation();
 	}
 	
 	@SuppressWarnings("deprecation")
 	private void initAnimation() {
-		mainLayout = (View)findViewById(R.id.linearLayoutChatPageContent);
-        third = getWindowManager().getDefaultDisplay().getWidth() / 3;
+		mainLayout = (View)this.findViewById(R.id.linearLayoutChatPageContent);
+        third = this.getWindowManager().getDefaultDisplay().getWidth() / 3;
 	}
 
 	public void toggleSlide() {
@@ -101,12 +101,12 @@ public class ChatActivity extends BasicActivity {
 	@Override
 	protected void initChatData() {
 		super.initChatData();
-		input = (EditText) findViewById(R.id.editTextChatPageContentInput);
+		input = (EditText) this.findViewById(R.id.editTextChatPageContentInput);
 		
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		
 		chatItemAdapter = new ChatItemAdapter(this);
-		chatList = (ListView) findViewById(R.id.listViewChatPageLayoutContentOutput);
+		chatList = (ListView) this.findViewById(R.id.listViewChatPageLayoutContentOutput);
 		chatList.setAdapter(chatItemAdapter);
 		chatItemAdapter.notifyDataSetChanged();
 
@@ -114,7 +114,7 @@ public class ChatActivity extends BasicActivity {
 		userItemAdapter = new UserItemAdapter(this);
 		userList.setAdapter(userItemAdapter);
 		
-		inputButton = (Button) findViewById(R.id.buttonChatPageContentInput);
+		inputButton = (Button) this.findViewById(R.id.buttonChatPageContentInput);
 		input.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void afterTextChanged(Editable arg0) {
@@ -163,7 +163,7 @@ public class ChatActivity extends BasicActivity {
 	@Override
 	protected void onDataReceived(String subject, String from)
 	{
-		TextView subjectview = (TextView) findViewById(R.id.textViewChatSubject);
+		TextView subjectview = (TextView) this.findViewById(R.id.textViewChatSubject);
 		subjectview.setText(subject);
 	}
 	
@@ -189,7 +189,7 @@ public class ChatActivity extends BasicActivity {
 		inflater.inflate(R.menu.chatmenu, menu);
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

@@ -14,7 +14,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -139,13 +141,29 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	{
 
 		@Override
-		public void onLogin(String username, String password, String sessionId) {
-			onAuthSuccessfull(username, password, sessionId);
+		public void onLogin(final String username, final String password, final String sessionId) {
+			Handler handler = new Handler(Looper.getMainLooper());
+			handler.post(new Runnable(){
+
+				@Override
+				public void run() {
+					onAuthSuccessfull(username, password, sessionId);
+				}
+				
+			});
 		}
 
 		@Override
-		public void onError(String errorMessage) {
-			onAuthError(errorMessage);
+		public void onError(final String errorMessage) {
+			Handler handler = new Handler(Looper.getMainLooper());
+			handler.post(new Runnable(){
+
+				@Override
+				public void run() {
+					onAuthError(errorMessage);
+				}
+				
+			});
 		}
 
 		@Override

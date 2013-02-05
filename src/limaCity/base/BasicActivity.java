@@ -146,17 +146,17 @@ public class BasicActivity extends SherlockActivity {
 	};
 	
 	protected void doBindService() {
-		bindService(new Intent(this.getApplicationContext(), SessionService.class), sessionConnection, Context.BIND_AUTO_CREATE);
-		bindService(new Intent(this.getApplicationContext(), ChatService.class), chatConnection, Context.BIND_AUTO_CREATE);
+		this.bindService(new Intent(this.getApplicationContext(), SessionService.class), sessionConnection, Context.BIND_AUTO_CREATE);
+		this.bindService(new Intent(this.getApplicationContext(), ChatService.class), chatConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	protected void doUnbindService() {
 		if(sessionServiceBound) {
-			unbindService(sessionConnection);
+			this.unbindService(sessionConnection);
 		}
 		if(chatServiceBound)
 		{
-			unbindService(chatConnection);
+			this.unbindService(chatConnection);
 		}
 	}
 	
@@ -204,8 +204,8 @@ public class BasicActivity extends SherlockActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		checkAccount();
-		doBindService();
+		if(checkAccount())
+			doBindService();
 	}
 
 	protected void initData() {
@@ -220,24 +220,33 @@ public class BasicActivity extends SherlockActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		checkAccount();
-		doBindService();
+		if(checkAccount())
+			doBindService();
 	}
 	
 	@Override
-	protected void onDestroy() {
+	public void onPause() {
+		super.onPause();
+		if(chatService != null)
+			chatService.removeListener(chatListener);
+	}
+	
+	@Override
+	public void onDestroy() {
 		super.onDestroy();
 		doUnbindService();
 	}
 	
-	protected void checkAccount() {
+	protected boolean checkAccount() {
 		AccountManager am = AccountManager.get(this.getApplicationContext());
 		Account[] accounts = am.getAccountsByType(BasicData.ACCOUNT_TYPE);
 		if(accounts.length==0)
 		{
 			Intent intent = new Intent(this, AuthenticatorActivity.class);
 			startActivity(intent);
+			return false;
 		}
+		return true;
 	}
 
 	@Override

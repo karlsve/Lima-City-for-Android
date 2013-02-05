@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayoutChatPageContent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+    
+	<TextView android:layout_width="match_parent" android:gravity="center" android:background="#9dc02a" android:id="@+id/textViewChatSubject" android:textColor="#ffffff" android:layout_height="wrap_content"></TextView>
+	
+	<ListView 
+	    android:id="@+id/listViewChatPageLayoutContentOutput" 
+	    android:textFilterEnabled="false" 
+	    android:layout_width="match_parent" 
+	    android:clickable="false" 
+	    android:layout_height="0dp" 
+	    android:transcriptMode="alwaysScroll" 
+	    android:scrollbars="vertical" 
+	    android:smoothScrollbar="true" 
+	    android:layout_marginBottom="5dp" 
+	    android:stackFromBottom="true"
+	    android:layout_weight="1" >
+	</ListView>
+	<LinearLayout 
+	    android:id="@+id/linearLayoutChatPageContentInput" 
+	    android:layout_width="match_parent" 
+	    android:layout_height="wrap_content" >
+
+		<EditText
+		    android:id="@+id/editTextChatPageContentInput"
+		    android:layout_width="0dp"
+		    android:layout_height="match_parent"
+		    android:layout_weight="1"
+		    android:inputType="text|textCapSentences"
+		    android:textColor="#000000" >
+
+		</EditText>
+
+		<Button
+		    android:id="@+id/buttonChatPageContentInput"
+		    android:layout_width="wrap_content"
+		    android:layout_height="match_parent"
+		    android:layout_marginTop="0px"
+		    android:clickable="false"
+		    android:enabled="true"
+		    android:text="@string/chatSendText" >
+
+		</Button>
+	</LinearLayout>
+</LinearLayout>

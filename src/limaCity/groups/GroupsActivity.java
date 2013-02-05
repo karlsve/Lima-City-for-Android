@@ -17,15 +17,15 @@ public class GroupsActivity extends BasicActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.groupslayout);
 		super.onCreate(savedInstanceState);
+		this.setContentView(R.layout.groupslayout);
 	}
 
 	@Override
 	protected void initData() {
 		super.initData();
-		profileOwner = this.getIntent().getStringExtra("profile");
-		ListView groupPage = (ListView) findViewById(R.id.GroupsPageContent);
+		profileOwner = this.getIntent().getExtras().getString("profile");
+		ListView groupPage = (ListView) this.findViewById(R.id.GroupsPageContent);
 		groupItemAdapter = new GroupItemAdapter(this);
 		groupPage.setAdapter(groupItemAdapter);
 	}
