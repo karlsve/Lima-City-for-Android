@@ -7,8 +7,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
 public class ProfileActivity extends BasicActivity {
@@ -48,16 +51,35 @@ public class ProfileActivity extends BasicActivity {
 	@Override
 	protected void onDataReceived(Document document) {
 		if (document != null) {
+			QuickContactBadge badge = (QuickContactBadge) findViewById(R.id.quickContactBadgeProfile);
 			profileItemAdapter.clear();
 			profileItemAdapter.notifyDataSetChanged();
 			Elements profileNodes = document.select("result");
 			if (profileNodes.size() > 0) {
 				Elements nodes = profileNodes.select("element");
 				for (Element node : nodes) {
+					String name = node.select("name").first().text();
+					String content = "";
 					if(node.attr("type").equals("text"))
 					{
-						String name = node.select("name").first().text();
-						String content = node.select("content").first().text();
+						content = node.select("content").first().text();
+						if(name.contentEquals("Jabber")) {
+							Uri.Builder builder = new Uri.Builder();
+							builder.scheme("imto");
+							builder.appendPath("lima-city");
+							builder.appendPath("jabber");
+							builder.appendQueryParameter("user", content);
+							badge.assignContactUri(builder.build());
+							Log.d("URI", builder.toString());
+						}
+						profileItemAdapter.addProfileItem(name, content);
+						profileItemAdapter.notifyDataSetChanged();
+					} else if(node.attr("type").equals("messenger")) {
+					} else if(node.attr("type").equals("boards")) {
+						Elements boards = node.select("board");
+						for(Element board : boards) {
+							content += board.select("name").first().text()+"\n";
+						}
 						profileItemAdapter.addProfileItem(name, content);
 						profileItemAdapter.notifyDataSetChanged();
 					}

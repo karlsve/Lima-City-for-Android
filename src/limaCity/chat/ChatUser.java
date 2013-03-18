@@ -6,10 +6,11 @@ public class ChatUser {
 	private String role = "";
 	private String username = "";
 
-	public ChatUser(String nick, String jid, String role) {
+	public ChatUser(String nick, String jid, String role, String username) {
 		this.nick = nick;
 		this.jid = jid;
 		this.role = role;
+		this.username = username;
 	}
 
 	public String getNick() {

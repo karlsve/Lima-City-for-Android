@@ -26,6 +26,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -34,6 +35,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class BasicActivity extends SherlockActivity {
 
 	protected String user = "";
+	protected ActionBar bar = null;
 	
 	protected ChatService chatService = null;
 	private boolean chatServiceBound = false;
@@ -204,6 +206,8 @@ public class BasicActivity extends SherlockActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		bar = this.getSupportActionBar();
+		bar.setDisplayHomeAsUpEnabled(true);
 		if(checkAccount())
 			doBindService();
 	}
@@ -259,6 +263,9 @@ public class BasicActivity extends SherlockActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.finish();
+			break;
 		case R.id.menuItemRefresh:
 			refreshPage();
 			break;

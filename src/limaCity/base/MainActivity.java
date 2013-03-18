@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
@@ -23,6 +24,8 @@ public class MainActivity extends BasicActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainlayout);
+		ActionBar ab = this.getSupportActionBar();
+		ab.setDisplayHomeAsUpEnabled(false);
 	}
 	
 	@Override
@@ -149,6 +152,7 @@ public class MainActivity extends BasicActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case R.id.mainmenulogoutitem:
 			logout();

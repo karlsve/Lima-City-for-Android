@@ -213,7 +213,7 @@ public class ChatService extends Service {
 			if(!connection.isAuthenticated())
 			{
 				try {
-					connection.login(username, password);
+					connection.login(username, password, this.getString(R.string.chatResource));
 				} catch (Exception e) {
 					onError("Error login in to chat server.");
 				}
@@ -320,8 +320,8 @@ public class ChatService extends Service {
 	private ChatUser getUser(String nick) {
 		Occupant current = muc.getOccupant(nick);
 		String name = current.getNick().replaceAll(".*/", "");
-		ChatUser chatUser = new ChatUser(name, nick,
-		current.getRole());
+		String username = current.getJid().replaceAll("@.*", "");
+		ChatUser chatUser = new ChatUser(name, nick, current.getRole(), username);
 		return chatUser;
 	}
 	

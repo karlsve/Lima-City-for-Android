@@ -23,10 +23,15 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+/**
+ * @author karlsve
+ * @description Service to keep the session alive
+ */
 public class SessionService extends Service {
 	
 	@SuppressWarnings("unused")
 	private NotificationManager nm;
+	
 	
 	public interface SessionListener {
 		public void onLogin(String username, String password, String sessionId);
@@ -36,8 +41,12 @@ public class SessionService extends Service {
 	}
 	
 	public class SessionBinder extends Binder {
+		/**
+		 * @return SessionService
+		 */
 		public SessionService getService() {
 			return SessionService.this;
+			
 		}
 	}
 	
@@ -45,26 +54,42 @@ public class SessionService extends Service {
 	
 	SessionListener listener = null;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Service#onCreate()
+	 */
 	@Override
 	public void onCreate() {
 		this.nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Service#onStartCommand(android.content.Intent, int, int)
+	 */
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Log.d("SessionService", "Started with start id "+startId+": "+intent);
 		return START_STICKY;
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Service#onDestroy()
+	 */
 	@Override
 	public void onDestroy() {
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.app.Service#onBind(android.content.Intent)
+	 */
 	@Override
 	public IBinder onBind(Intent intent) {
 		return binder;
 	}
 	
+	/**
+	 * @param username
+	 * @param password
+	 */
 	public void doLogin(String username, String password)
 	{
 		String url = (String) this.getText(R.string.limaServerUrl);
@@ -103,6 +128,9 @@ public class SessionService extends Service {
 		}
 	}
 	
+	/**
+	 * @param user
+	 */
 	@SuppressWarnings("deprecation")
 	public void getProfile(String user)
 	{
@@ -153,6 +181,9 @@ public class SessionService extends Service {
 		}
 	}
 	
+	/**
+	 * @param user
+	 */
 	@SuppressWarnings("deprecation")
 	public void getFriends(String user)
 	{
@@ -203,6 +234,9 @@ public class SessionService extends Service {
 		}
 	}
 
+	/**
+	 * @param user
+	 */
 	@SuppressWarnings("deprecation")
 	public void getGroups(String user) {
 		String url = (String) this.getText(R.string.limaServerUrl);
@@ -252,6 +286,9 @@ public class SessionService extends Service {
 		}
 	}
 	
+	/**
+	 * 
+	 */
 	public void getServerStatus()
 	{
 		String url = (String) this.getText(R.string.limaServerUrl);
@@ -263,6 +300,9 @@ public class SessionService extends Service {
 			listener.onDocumentReceived(document);
 	}
 	
+	/**
+	 * 
+	 */
 	public void getUsername() {
 		AccountManager am = AccountManager.get(this.getApplicationContext());
 		

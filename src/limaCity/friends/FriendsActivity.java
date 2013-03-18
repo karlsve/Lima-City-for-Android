@@ -28,6 +28,7 @@ public class FriendsActivity extends BasicActivity {
 		ListView friendPage = (ListView) this.findViewById(R.id.FriendsPageContent);
 		friendItemAdapter = new FriendItemAdapter(this);
 		friendPage.setAdapter(friendItemAdapter);
+		bar.setTitle(profileOwner);
 	}
 	
 	@Override

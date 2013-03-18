@@ -3,11 +3,15 @@ package limaCity.chat;
 import java.util.ArrayList;
 
 import limaCity.App.R;
+import limaCity.profile.ProfileActivity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,8 +56,28 @@ public class UserItemAdapter extends BaseAdapter {
 				.findViewById(R.id.textViewUserListItemName);
 
 		name.setText(current.getNick());
+		
+		userListViewItem = setLayoutOnClick(userListViewItem, current.getUsername());
 
 		return userListViewItem;
+	}
+	
+	private LinearLayout setLayoutOnClick(LinearLayout layout, final String user) {
+		OnClickListener profileClick = new OnClickListener() {
+			public void onClick(View v) {
+				Log.d("click", "profilePage");
+				startProfileActivity(user);
+			}
+		};
+
+		layout.setOnClickListener(profileClick);
+		return layout;
+	}
+
+	protected void startProfileActivity(String user) {
+		Intent intent = new Intent(context, ProfileActivity.class);
+		intent.putExtra("profile", user);
+		context.startActivity(intent);
 	}
 
 	public void addUser(ChatUser user) {

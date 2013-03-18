@@ -192,6 +192,7 @@ public class ChatActivity extends BasicActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case R.id.chatmenuuseritem:
 			if(!animationRunning)
